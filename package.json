@@ -72,6 +72,7 @@
     "istanbul": "^1.1.0-alpha.1",
     "jsdoc": "^3.6.3",
     "memdown": "^2.0.0",
+    "minami": "^1.2.3",
     "mocha": "^5.2.0",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
@@ -102,7 +103,8 @@
     "linter": "eslint ./index.js ./lib",
     "start": "docker-compose up --build --force-recreate --always-recreate-deps",
     "test": "npm run unit-tests && npm run integration-tests && npm run e2e-tests && npm run linter",
-    "unit-tests": "mocha --exit test/*.unit.js"
+    "unit-tests": "mocha --exit test/*.unit.js",
+    "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"
   },
   "version": "7.0.0-unstable"
 }

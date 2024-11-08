@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>plugin-traverse.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Tutorials</li><li class="nav-item"><a href="tutorial-config.html">Configuration Guide</a></li><li class="nav-item"><a href="tutorial-identities.html">Contacts and Identities</a></li><li class="nav-item"><a href="tutorial-install.html">Installing Kadence</a></li><li class="nav-item"><a href="tutorial-messengers.html">Message Format</a></li><li class="nav-item"><a href="tutorial-middleware.html">Middleware Stack</a></li><li class="nav-item"><a href="tutorial-nat.html">Traversing NATs and Firewalls</a></li><li class="nav-item"><a href="tutorial-plugins.html">Using and Authoring Plugins</a></li><li class="nav-item"><a href="tutorial-protocol.html">Protocol Specification</a></li><li class="nav-item"><a href="tutorial-quickstart.html">Getting Started</a></li><li class="nav-item"><a href="tutorial-transport-adapters.html">Transport Adapters</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AbstractNode.html">AbstractNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#listen">listen</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#plugin">plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#receive">receive</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#send">send</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#use">use</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#~responseError">responseError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#~responseSend">responseSend</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Bucket.html">Bucket</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#getClosestToKey">getClosestToKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#indexOf">indexOf</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#set">set</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ContactList.html">ContactList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#contacted">contacted</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#responded">responded</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Control.html">Control</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Control.html#getProtocolInfo">getProtocolInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Control.html#listMethods">listMethods</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ErrorRules.html">ErrorRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ErrorRules.html#internalError">internalError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ErrorRules.html#methodNotFound">methodNotFound</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="HTTPSTransport.html">HTTPSTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="HTTPSTransport.html#listen">listen</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="HTTPTransport.html">HTTPTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="HTTPTransport.html#listen">listen</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="KademliaNode.html">KademliaNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#expire">expire</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeFindNode">iterativeFindNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeFindValue">iterativeFindValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeStore">iterativeStore</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#join">join</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#listen">listen</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#ping">ping</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#plugin">plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#receive">receive</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#refresh">refresh</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#replicate">replicate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#send">send</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#use">use</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="KademliaRules.html">KademliaRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#findNode">findNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#findValue">findValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#ping">ping</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#store">store</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Messenger.html">Messenger</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#.JsonRpcDeserializer">JsonRpcDeserializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#.JsonRpcSerializer">JsonRpcSerializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#~deserializer">deserializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#~serializer">serializer</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html">ChurnFilterPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#delBlock">delBlock</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#hasBlock">hasBlock</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#reset">reset</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#resetCooldownForStablePeers">resetCooldownForStablePeers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#setBlock">setBlock</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_contentaddress-ContentAddressPlugin.html">ContentAddressPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_contentaddress-ContentAddressPlugin.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html">EclipseIdentity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html#solve">solve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipsePlugin.html">EclipsePlugin</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseRules.html">EclipseRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseRules.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html">HashCashPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#.parse">parse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#prove">prove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#verify">verify</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html">HibernatePlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#detect">detect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#meter">meter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#start">start</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_logger-IncomingMessageLogger.html">IncomingMessageLogger</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_logger-OutgoingMessageLogger.html">OutgoingMessageLogger</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html">OnionPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html#createClearAgent">createClearAgent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html#createSecureAgent">createSecureAgent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html">QuasarPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#hasNeighborSubscribedTo">hasNeighborSubscribedTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#isSubscribedTo">isSubscribedTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pullFilterFrom">pullFilterFrom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pullFilters">pullFilters</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pushFilters">pushFilters</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pushFilterTo">pushFilterTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#quasarPublish">quasarPublish</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#quasarSubscribe">quasarSubscribe</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html">QuasarRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#.shouldRelayPublication">shouldRelayPublication</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#publish">publish</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#subscribe">subscribe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html">RolodexPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getBootstrapCandidates">getBootstrapCandidates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getExternalPeerInfo">getExternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getInternalPeerInfo">getInternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#setExternalPeerInfo">setExternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#setInternalPeerInfo">setInternalPeerInfo</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html">SpartacusPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#deserialize">deserialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#serialize">serialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#setValidationPeriod">setValidationPeriod</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-NATPMPStrategy.html">NATPMPStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-NATPMPStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-ReverseTunnelStrategy.html">ReverseTunnelStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-ReverseTunnelStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-TraversePlugin.html">TraversePlugin</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-TraverseStrategy.html">TraverseStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-TraverseStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-UPNPStrategy.html">UPNPStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-UPNPStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html">TrustPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#addTrustPolicy">addTrustPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#getTrustPolicy">getTrustPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#removeTrustPolicy">removeTrustPolicy</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RoutingTable.html">RoutingTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#addContactByNodeId">addContactByNodeId</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getClosestBucket">getClosestBucket</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getClosestContactsToKey">getClosestContactsToKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getContactByNodeId">getContactByNodeId</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#indexOf">indexOf</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#removeContactByNodeId">removeContactByNodeId</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="UDPTransport.html">UDPTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="UDPTransport.html#listen">listen</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_churnfilter.html">kadence/churnfilter</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_constants.html">kadence/constants</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_contentaddress.html">kadence/contentaddress</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_eclipse.html">kadence/eclipse</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_hashcash.html">kadence/hashcash</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_hibernate.html">kadence/hibernate</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_logger.html">kadence/logger</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_onion.html">kadence/onion</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_quasar.html">kadence/quasar</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_rolodex.html">kadence/rolodex</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_spartacus.html">kadence/spartacus</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_traverse.html">kadence/traverse</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_trust.html">kadence/trust</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_utils.html">kadence/utils</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.compareKeyBuffers">compareKeyBuffers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.eqsolve">eqsolve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.eqverify">eqverify</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.generatePrivateKey">generatePrivateKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getBucketIndex">getBucketIndex</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getContactURL">getContactURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getDistance">getDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getPowerOfTwoBufferForIndex">getPowerOfTwoBufferForIndex</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomBufferInBucketRange">getRandomBufferInBucketRange</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomKeyBuffer">getRandomKeyBuffer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomKeyString">getRandomKeyString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.hash160">hash160</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.hash256">hash256</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isCompatibleVersion">isCompatibleVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isHexaString">isHexaString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isValidContact">isValidContact</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.keyBufferIsValid">keyBufferIsValid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.keyStringIsValid">keyStringIsValid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.parseContactURL">parseContactURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.preventConvoy">preventConvoy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.satisfiesDifficulty">satisfiesDifficulty</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.toBinaryStringFromBuffer">toBinaryStringFromBuffer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.toPublicKeyHash">toPublicKeyHash</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateLogger">validateLogger</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateStorageAdapter">validateStorageAdapter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateTransport">validateTransport</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_version.html">kadence/version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_version.html#.toString">toString</a></span></li><li class="nav-heading">Events</li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="AbstractNode.html#event:error">error</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="AbstractNode.html#event:join">join</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="KademliaNode.html#event:error">error</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="KademliaNode.html#event:join">join</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">plugin-traverse.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * @module kadence/traverse
+ */
+
+'use strict';
+
+const { createLogger } = require('bunyan');
+const ip = require('ip');
+const merge = require('merge');
+const async = require('async');
+const { get_gateway_ip: getGatewayIp } = require('network');
+const natpmp = require('nat-pmp');
+const natupnp = require('nat-upnp');
+const url = require('url');
+const diglet = require('@tacticalchihuahua/diglet');
+
+
+/**
+ * Establishes a series of NAT traversal strategies to execute before
+ * {@link AbstractNode#listen}
+ */
+class TraversePlugin {
+
+  static get TEST_INTERVAL() {
+    return 600000;
+  }
+
+  /**
+   * @constructor
+   * @param {KademliaNode} node
+   * @param {module:kadence/traverse~TraverseStrategy[]} strategies
+   */
+  constructor(node, strategies) {
+    this.node = node;
+    this.strategies = strategies;
+    this._originalContact = merge({}, node.contact);
+
+    this._wrapNodeListen();
+  }
+
+  /**
+   * @private
+   * @param {function} callback
+   */
+  _execTraversalStrategies(callback) {
+    async.detectSeries(this.strategies, (strategy, test) => {
+      this.node.logger.info(
+        `attempting nat traversal strategy ${strategy.constructor.name}`
+      );
+      this.node.contact = this._originalContact;
+      strategy.exec(this.node, (err) => {
+        if (err) {
+          this.node.logger.warn(err.message);
+          test(null, false);
+        } else {
+          this._testIfReachable(test);
+        }
+      });
+    }, callback);
+  }
+
+  /**
+   * @private
+   */
+  _startTestInterval() {
+    clearInterval(this._testInterval);
+
+    this._testInterval = setInterval(() => {
+      this._testIfReachable((err, isReachable) => {
+        /* istanbul ignore else */
+        if (!isReachable) {
+          this.node.logger.warn('no longer reachable, retrying traversal');
+          this._execTraversalStrategies(() => null);
+        }
+      });
+    }, TraversePlugin.TEST_INTERVAL);
+  }
+
+  /**
+   * @private
+   */
+  _testIfReachable(callback) {
+    if (!ip.isPublic(this.node.contact.hostname)) {
+      this.node.logger.warn('traversal strategy failed, not reachable');
+      return callback(null, false);
+    }
+
+    callback(null, true);
+  }
+
+  /**
+   * @private
+   */
+  _wrapNodeListen() {
+    const self = this;
+    const listen = this.node.listen.bind(this.node);
+
+    this.node.listen = function() {
+      let args = [...arguments];
+      let listenCallback = () => null;
+
+      if (typeof args[args.length - 1] === 'function') {
+        listenCallback = args.pop();
+      }
+
+      listen(...args, () => {
+        self._execTraversalStrategies((err, strategy) => {
+          if (err) {
+            self.node.logger.error('traversal errored %s', err.message);
+          } else if (!strategy) {
+            self.node.logger.warn('traversal failed - may not be reachable');
+          } else {
+            self.node.logger.info('traversal succeeded - you are reachable');
+          }
+
+          self._startTestInterval();
+          listenCallback();
+        });
+      });
+    };
+  }
+
+}
+
+/**
+ * Uses NAT-PMP to attempt port forward on gateway device
+ * @extends {module:kadence/traverse~TraverseStrategy}
+ */
+class NATPMPStrategy {
+
+  static get DEFAULTS() {
+    return {
+      publicPort: 0,
+      mappingTtl: 0,
+      timeout: 10000
+    };
+  }
+
+  /**
+   * @constructor
+   * @param {object} [options]
+   * @param {number} [options.publicPort=contact.port] - Port number to map
+   * @param {number} [options.mappingTtl=0] - TTL for port mapping on router
+   */
+  constructor(options) {
+    this.options = merge(NATPMPStrategy.DEFAULTS, options);
+  }
+
+  /**
+   * @param {KademliaNode} node
+   * @param {function} callback
+   */
+  exec(node, callback) {
+    async.waterfall([
+      (next) => getGatewayIp(next),
+      (gateway, next) => {
+        const timeout = setTimeout(() => {
+          next(new Error('NAT-PMP traversal timed out'));
+        }, this.options.timeout);
+        this.client = natpmp.connect(gateway);
+        this.client.portMapping({
+          public: this.options.publicPort || node.contact.port,
+          private: node.contact.port,
+          ttl: this.options.mappingTtl
+        }, err => {
+          clearTimeout(timeout);
+          next(err);
+        });
+      },
+      (next) => this.client.externalIp(next)
+    ], (err, info) => {
+      if (err) {
+        return callback(err);
+      }
+
+      node.contact.port = this.options.publicPort;
+      node.contact.hostname = info.ip.join('.');
+
+      callback(null);
+    });
+  }
+
+}
+
+/**
+ * Uses UPnP to attempt port forward on gateway device
+ * @extends {module:kadence/traverse~TraverseStrategy}
+ */
+class UPNPStrategy {
+
+  static get DEFAULTS() {
+    return {
+      publicPort: 0,
+      mappingTtl: 0
+    };
+  }
+
+  /**
+   * @constructor
+   * @param {object} [options]
+   * @param {number} [options.publicPort=contact.port] - Port number to map
+   * @param {number} [options.mappingTtl=0] - TTL for mapping on router
+   */
+  constructor(options) {
+    this.client = natupnp.createClient();
+    this.options = merge(UPNPStrategy.DEFAULTS, options);
+  }
+
+  /**
+   * @param {KademliaNode} node
+   * @param {function} callback
+   */
+  exec(node, callback) {
+    async.waterfall([
+      (next) => {
+        this.client.portMapping({
+          public: this.options.publicPort || node.contact.port,
+          private: node.contact.port,
+          ttl: this.options.mappingTtl
+        }, err => next(err));
+      },
+      (next) => this.client.externalIp(next)
+    ], (err, ip) => {
+      if (err) {
+        return callback(err);
+      }
+
+      node.contact.port = this.options.publicPort;
+      node.contact.hostname = ip;
+
+      callback(null);
+    });
+  }
+
+}
+
+/**
+ * Uses a secure reverse HTTPS tunnel via the Diglet package to traverse NAT.
+ * This requires a running Diglet server on the internet. By default, this
+ * plugin will use a test server operated by bookchin, but this may not be
+ * reliable or available. It is highly recommended to deploy your own Diglet
+ * server and configure your nodes to use them instead.
+ * There is {@link https://gitlab.com/bookchin/diglet detailed documentation}
+ * on deploying a Diglet server at the project page.
+ * @extends {module:kadence/traverse~TraverseStrategy}
+ */
+class ReverseTunnelStrategy {
+
+  static get DEFAULTS() {
+    return {
+      remoteAddress: 'tun.tacticalchihuahua.lol',
+      remotePort: 8443,
+      secureLocalConnection: false,
+      verboseLogging: false
+    };
+  }
+
+  /**
+   * @constructor
+   * @param {object} [options]
+   * @param {string} [options.remoteAddress=tunnel.bookch.in] - Diglet server address
+   * @param {number} [options.remotePort=8443] - Diglet server port
+   * @param {buffer} [options.privateKey] - SECP256K1 private key if using spartacus
+   * @param {boolean} [options.secureLocalConnection=false] - Set to true if using {@link HTTPSTransport}
+   * @param {boolean} [options.verboseLogging=false] - Useful for debugging
+   */
+  constructor(options) {
+    this.options = merge(ReverseTunnelStrategy.DEFAULTS, options);
+  }
+
+  /**
+   * @param {KademliaNode} node
+   * @param {function} callback
+   */
+  exec(node, callback) {
+    const opts = {
+      localAddress: '127.0.0.1',
+      localPort: node.contact.port,
+      remoteAddress: this.options.remoteAddress,
+      remotePort: this.options.remotePort,
+      logger: this.options.verboseLogging
+        ? node.logger
+        : createLogger({ name: 'kadence', level: 'warn' }),
+      secureLocalConnection: this.options.secureLocalConnection
+    };
+
+    if (this.options.privateKey) {
+      opts.privateKey = this.options.privateKey;
+    }
+
+    this.tunnel = new diglet.Tunnel(opts);
+
+    this.tunnel.once('connected', () => {
+      node.contact.hostname = url.parse(this.tunnel.url).hostname;
+      node.contact.port = 443;
+      node.contact.protocol = 'https:';
+
+      this.tunnel.removeListener('disconnected', callback);
+      callback()
+    });
+
+    this.tunnel.once('disconnected', callback);
+    this.tunnel.open();
+  }
+
+}
+
+/**
+ * @class
+ */
+class TraverseStrategy {
+
+  constructor() {}
+
+  /**
+   * @param {KademliaNode} node
+   * @param {function} callback - Called on travere complete or failed
+   */
+  exec(node, callback) {
+    callback(new Error('Not implemented'));
+  }
+
+}
+
+/**
+ * Registers a {@link module:kadence/traverse~TraversePlugin} with an
+ * {@link AbstractNode}. Strategies are attempted in the order they are
+ * defined.
+ * @param {module:kadence/traverse~TraverseStrategy[]} strategies
+ * @example &lt;caption>Proper Configuration&lt;/caption>
+ * const node = new kadence.KademliaNode(node_options);
+ * const keys = node.plugin(kadence.spartacus(key_options));
+ *
+ * node.plugin(kadence.traverse([
+ *   new kadence.traverse.UPNPStrategy({
+ *     publicPort: 8080,
+ *     mappingTtl: 0
+ *   }),
+ *   new kadence.traverse.NATPMPStrategy({
+ *     publicPort: 8080,
+ *     mappingTtl: 0
+ *   }),
+ *   new kadence.traverse.ReverseTunnelStrategy({
+ *     remoteAddress: 'my.diglet.server',
+ *     remotePort: 8443,
+ *     privateKey: keys.privateKey,
+ *     secureLocalConnection: false,
+ *     verboseLogging: false
+ *   })
+ * ]));
+ *
+ * node.listen(node.contact.port);
+ */
+module.exports = function(strategies) {
+  return function(node) {
+    return new module.exports.TraversePlugin(node, strategies);
+  };
+};
+
+module.exports.ReverseTunnelStrategy = ReverseTunnelStrategy;
+module.exports.UPNPStrategy = UPNPStrategy;
+module.exports.NATPMPStrategy = NATPMPStrategy;
+module.exports.TraverseStrategy = TraverseStrategy;
+module.exports.TraversePlugin = TraversePlugin;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Nov 08 2024 12:34:06 GMT-0800 (Pacific Standard Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>

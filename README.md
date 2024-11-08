@@ -1,8 +1,6 @@
-<p style="font-size:18px" align="center"><strong>Kadence: An Extensible, Hardened, and Secure Distributed Systems Framework</strong></p>
+# Kadence
 
---
-
-The Kadence Project is a complete implementation of the 
+Kadence is a complete implementation of the 
 [Kademlia](http://www.scs.stanford.edu/%7Edm/home/papers/kpos.pdf) distributed 
 hash table that aims to effectively mitigate *all vulnerabilities* described in 
 the [S/Kademlia](https://gnunet.org/sites/default/files/SKademlia2007.pdf) 

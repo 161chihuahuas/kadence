@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>node-kademlia.js - Documentation</title>
+
+    <script src="scripts/prettify/prettify.js"></script>
+    <script src="scripts/prettify/lang-css.js"></script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="https://code.ionicframework.com/ionicons/2.0.1/css/ionicons.min.css">
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+<body>
+
+<input type="checkbox" id="nav-trigger" class="nav-trigger" />
+<label for="nav-trigger" class="navicon-button x">
+  <div class="navicon"></div>
+</label>
+
+<label for="nav-trigger" class="overlay"></label>
+
+<nav>
+    <li class="nav-link nav-home-link"><a href="index.html">Home</a></li><li class="nav-heading">Tutorials</li><li class="nav-item"><a href="tutorial-config.html">Configuration Guide</a></li><li class="nav-item"><a href="tutorial-identities.html">Contacts and Identities</a></li><li class="nav-item"><a href="tutorial-install.html">Installing Kadence</a></li><li class="nav-item"><a href="tutorial-messengers.html">Message Format</a></li><li class="nav-item"><a href="tutorial-middleware.html">Middleware Stack</a></li><li class="nav-item"><a href="tutorial-nat.html">Traversing NATs and Firewalls</a></li><li class="nav-item"><a href="tutorial-plugins.html">Using and Authoring Plugins</a></li><li class="nav-item"><a href="tutorial-protocol.html">Protocol Specification</a></li><li class="nav-item"><a href="tutorial-quickstart.html">Getting Started</a></li><li class="nav-item"><a href="tutorial-transport-adapters.html">Transport Adapters</a></li><li class="nav-heading">Classes</li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="AbstractNode.html">AbstractNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#listen">listen</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#plugin">plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#receive">receive</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#send">send</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#use">use</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#~responseError">responseError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="AbstractNode.html#~responseSend">responseSend</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Bucket.html">Bucket</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#getClosestToKey">getClosestToKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#indexOf">indexOf</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Bucket.html#set">set</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ContactList.html">ContactList</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#add">add</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#contacted">contacted</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ContactList.html#responded">responded</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Control.html">Control</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Control.html#getProtocolInfo">getProtocolInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Control.html#listMethods">listMethods</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="ErrorRules.html">ErrorRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ErrorRules.html#internalError">internalError</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="ErrorRules.html#methodNotFound">methodNotFound</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="HTTPSTransport.html">HTTPSTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="HTTPSTransport.html#listen">listen</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="HTTPTransport.html">HTTPTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="HTTPTransport.html#listen">listen</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="KademliaNode.html">KademliaNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#expire">expire</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeFindNode">iterativeFindNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeFindValue">iterativeFindValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#iterativeStore">iterativeStore</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#join">join</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#listen">listen</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#ping">ping</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#plugin">plugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#receive">receive</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#refresh">refresh</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#replicate">replicate</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#send">send</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaNode.html#use">use</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="KademliaRules.html">KademliaRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#findNode">findNode</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#findValue">findValue</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#ping">ping</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="KademliaRules.html#store">store</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="Messenger.html">Messenger</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#.JsonRpcDeserializer">JsonRpcDeserializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#.JsonRpcSerializer">JsonRpcSerializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#~deserializer">deserializer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="Messenger.html#~serializer">serializer</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html">ChurnFilterPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#delBlock">delBlock</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#hasBlock">hasBlock</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#reset">reset</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#resetCooldownForStablePeers">resetCooldownForStablePeers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_churnfilter-ChurnFilterPlugin.html#setBlock">setBlock</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_contentaddress-ContentAddressPlugin.html">ContentAddressPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_contentaddress-ContentAddressPlugin.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html">EclipseIdentity</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html#solve">solve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseIdentity.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipsePlugin.html">EclipsePlugin</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseRules.html">EclipseRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_eclipse-EclipseRules.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html">HashCashPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#.parse">parse</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#prove">prove</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hashcash-HashCashPlugin.html#verify">verify</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html">HibernatePlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#detect">detect</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#meter">meter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_hibernate-HibernatePlugin.html#start">start</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_logger-IncomingMessageLogger.html">IncomingMessageLogger</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_logger-OutgoingMessageLogger.html">OutgoingMessageLogger</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html">OnionPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html#createClearAgent">createClearAgent</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_onion-OnionPlugin.html#createSecureAgent">createSecureAgent</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html">QuasarPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#hasNeighborSubscribedTo">hasNeighborSubscribedTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#isSubscribedTo">isSubscribedTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pullFilterFrom">pullFilterFrom</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pullFilters">pullFilters</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pushFilters">pushFilters</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#pushFilterTo">pushFilterTo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#quasarPublish">quasarPublish</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarPlugin.html#quasarSubscribe">quasarSubscribe</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html">QuasarRules</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#.shouldRelayPublication">shouldRelayPublication</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#publish">publish</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#subscribe">subscribe</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_quasar-QuasarRules.html#update">update</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html">RolodexPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getBootstrapCandidates">getBootstrapCandidates</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getExternalPeerInfo">getExternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#getInternalPeerInfo">getInternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#setExternalPeerInfo">setExternalPeerInfo</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_rolodex-RolodexPlugin.html#setInternalPeerInfo">setInternalPeerInfo</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html">SpartacusPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#deserialize">deserialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#serialize">serialize</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#setValidationPeriod">setValidationPeriod</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_spartacus-SpartacusPlugin.html#validate">validate</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-NATPMPStrategy.html">NATPMPStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-NATPMPStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-ReverseTunnelStrategy.html">ReverseTunnelStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-ReverseTunnelStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-TraversePlugin.html">TraversePlugin</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-TraverseStrategy.html">TraverseStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-TraverseStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_traverse-UPNPStrategy.html">UPNPStrategy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_traverse-UPNPStrategy.html#exec">exec</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html">TrustPlugin</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#addTrustPolicy">addTrustPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#getTrustPolicy">getTrustPolicy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_trust-TrustPlugin.html#removeTrustPolicy">removeTrustPolicy</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="RoutingTable.html">RoutingTable</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#addContactByNodeId">addContactByNodeId</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getClosestBucket">getClosestBucket</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getClosestContactsToKey">getClosestContactsToKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#getContactByNodeId">getContactByNodeId</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#indexOf">indexOf</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="RoutingTable.html#removeContactByNodeId">removeContactByNodeId</a></span></li><li class="nav-heading"><span class="nav-item-type type-class">C</span><span class="nav-item-name"><a href="UDPTransport.html">UDPTransport</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="UDPTransport.html#listen">listen</a></span></li><li class="nav-heading">Modules</li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_churnfilter.html">kadence/churnfilter</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_constants.html">kadence/constants</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_contentaddress.html">kadence/contentaddress</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_eclipse.html">kadence/eclipse</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_hashcash.html">kadence/hashcash</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_hibernate.html">kadence/hibernate</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_logger.html">kadence/logger</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_onion.html">kadence/onion</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_quasar.html">kadence/quasar</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_rolodex.html">kadence/rolodex</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_spartacus.html">kadence/spartacus</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_traverse.html">kadence/traverse</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_trust.html">kadence/trust</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_utils.html">kadence/utils</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.compareKeyBuffers">compareKeyBuffers</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.eqsolve">eqsolve</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.eqverify">eqverify</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.generatePrivateKey">generatePrivateKey</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getBucketIndex">getBucketIndex</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getContactURL">getContactURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getDistance">getDistance</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getPowerOfTwoBufferForIndex">getPowerOfTwoBufferForIndex</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomBufferInBucketRange">getRandomBufferInBucketRange</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomKeyBuffer">getRandomKeyBuffer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.getRandomKeyString">getRandomKeyString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.hash160">hash160</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.hash256">hash256</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isCompatibleVersion">isCompatibleVersion</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isHexaString">isHexaString</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.isValidContact">isValidContact</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.keyBufferIsValid">keyBufferIsValid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.keyStringIsValid">keyStringIsValid</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.parseContactURL">parseContactURL</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.preventConvoy">preventConvoy</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.satisfiesDifficulty">satisfiesDifficulty</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.toBinaryStringFromBuffer">toBinaryStringFromBuffer</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.toPublicKeyHash">toPublicKeyHash</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateLogger">validateLogger</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateStorageAdapter">validateStorageAdapter</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_utils.html#.validateTransport">validateTransport</a></span></li><li class="nav-heading"><span class="nav-item-type type-module">M</span><span class="nav-item-name"><a href="module-kadence_version.html">kadence/version</a></span></li><li class="nav-item"><span class="nav-item-type type-function">F</span><span class="nav-item-name"><a href="module-kadence_version.html#.toString">toString</a></span></li><li class="nav-heading">Events</li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="AbstractNode.html#event:error">error</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="AbstractNode.html#event:join">join</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="KademliaNode.html#event:error">error</a></span></li><li class="nav-heading"><span class="nav-item-type type-event">E</span><span class="nav-item-name"><a href="KademliaNode.html#event:join">join</a></span></li>
+</nav>
+
+<div id="main">
+    
+    <h1 class="page-title">node-kademlia.js</h1>
+    
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+
+const async = require('async');
+const { Writable: WritableStream } = require('stream');
+const constants = require('./constants');
+const { knuthShuffle: shuffle } = require('knuth-shuffle');
+const utils = require('./utils');
+const AbstractNode = require('./node-abstract');
+const KademliaRules = require('./rules-kademlia');
+const ContactList = require('./contact-list');
+const MetaPipe = require('metapipe');
+
+
+/**
+ * Extends {@link AbstractNode} with Kademlia-specific rules
+ * @class
+ * @extends {AbstractNode}
+ */
+class KademliaNode extends AbstractNode {
+
+  /**
+   * @typedef {object} KademliaNode~entry
+   * @property {string|object|array} value - The primary entry value
+   * @property {string} publisher - Node identity of the original publisher
+   * @property {number} timestamp - Last update/replicate time
+   */
+
+  /**
+   * @constructor
+   */
+  constructor(options) {
+    super(options);
+
+    this._lookups = new Map(); // NB: Track the last lookup time for buckets
+    this._pings = new Map();
+    this._updateContactQueue = async.queue(
+      (task, cb) => this._updateContactWorker(task, cb),
+      1
+    );
+
+    this.replicatePipeline = new MetaPipe({ objectMode: true });
+    this.expirePipeline = new MetaPipe({ objectMode: true });
+  }
+
+  /**
+   * Adds the kademlia rule handlers before calling super#listen()
+   */
+  listen() {
+    let handlers = new KademliaRules(this);
+
+    this.use('PING', handlers.ping.bind(handlers));
+    this.use('STORE', handlers.store.bind(handlers));
+    this.use('FIND_NODE', handlers.findNode.bind(handlers));
+    this.use('FIND_VALUE', handlers.findValue.bind(handlers));
+
+    setInterval(
+      utils.preventConvoy(() => this.refresh(0)),
+      constants.T_REFRESH
+    );
+    setInterval(
+      utils.preventConvoy(() => this.replicate(() => this.expire())),
+      constants.T_REPLICATE
+    );
+
+    super.listen(...arguments);
+  }
+
+  /**
+   * Inserts the given contact into the routing table and uses it to perform
+   * a {@link KademliaNode#iterativeFindNode} for this node's identity,
+   * then refreshes all buckets further than it's closest neighbor, which will
+   * be in the occupied bucket with the lowest index
+   * @param {Bucket~contact} peer - Peer to bootstrap from
+   * @param {function} [joinListener] - Function to set as join listener
+   * @returns {Promise}
+   */
+  join(peer, callback) {
+    if (typeof callback === 'function') {
+      return this._join(peer).then(function() {
+        callback(null, ...arguments);
+      }, callback);
+    } else {
+      return this._join(peer);
+    }
+  }
+
+  /**
+   * @private
+   */
+  _join([identity, contact]) {
+    return new Promise((resolve, reject) => {
+      this.router.addContactByNodeId(identity, contact);
+      async.series([
+        (next) => this.iterativeFindNode(this.identity.toString('hex'), next),
+        (next) => this.refresh(this.router.getClosestBucket() + 1, next)
+      ], (err) => {
+        if (err) {
+          reject(err);
+        } else {
+          resolve();
+        }
+      });
+    });
+  }
+
+  /**
+   * Sends a PING message to the supplied contact, resolves with latency
+   * @param {Bucket~contact} peer
+   * @param {KademliaNode~pingCallback} [callback]
+   * @returns {Promise&lt;number>}
+   */
+  ping(contact, callback) {
+    if (typeof callback ==='function') {
+      return this._ping(contact).then(function() {
+        callback(null, ...arguments);
+      }, callback);
+    } else {
+      return this._ping(contact);
+    }
+  }
+  /**
+   * @callback KademliaNode~pingCallback
+   * @param {error|null} error
+   * @param {number} latency - Milliseconds before response received
+   */
+
+  /**
+   * @private
+   */
+  _ping(contact) {
+    return new Promise((resolve, reject) => {
+      const start = Date.now();
+
+      this.send('PING', [], contact, (err) => {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve(Date.now() - start);
+      });
+    });
+  }
+
+  /**
+   * @private
+   */
+  _createStorageItem(value) {
+    const keys = Object.keys(value);
+    const alreadyHasMetadata = keys.includes('value') &amp;&amp;
+                               keys.includes('publisher') &amp;&amp;
+                               keys.includes('timestamp');
+
+    if (alreadyHasMetadata) {
+      value.timestamp = Date.now();
+      value.publisher = value.publisher.toString('hex');
+      return value;
+    }
+
+    return {
+      value: value,
+      timestamp: Date.now(),
+      publisher: this.identity.toString('hex')
+    };
+  }
+
+  /**
+   * Performs a {@link KademliaNode#iterativeFindNode} to collect K contacts
+   * nearest to the given key, sending a STORE message to each of them.
+   * @param {buffer|string} key - Key to store data under
+   * @param {buffer|string|object} value - Value to store by key
+   * @param {KademliaNode~iterativeStoreCallback} callback
+   * @returns {Promise&lt;number>}
+   */
+  iterativeStore(key, value, callback) {
+    if (typeof callback === 'function') {
+      return this._iterativeStore(key, value).then(function() {
+        callback(null, ...arguments);
+      }, callback);
+    } else {
+      return this._iterativeStore(key, value);
+    }
+  }
+  /**
+   * Note that if there is a protocol/validation error, you will not receive
+   * it as an error in the callback. Be sure to also check that stored > 0 as
+   * part of error handling here.
+   * @callback KademliaNode~iterativeStoreCallback
+   * @param {error|null} error
+   * @param {number} stored - Total nodes who stored the pair
+   */
+
+  /**
+   * @private
+   */
+  _iterativeStore(key, value) {
+    return new Promise((resolve, reject) => {
+      key = key.toString('hex');
+      let stored = 0;
+
+      const createStoreRpc = (target) => {
+        return ['STORE', [key, this._createStorageItem(value)], target];
+      };
+
+      const dispatchStoreRpcs = (contacts, callback) => {
+        async.eachLimit(contacts, constants.ALPHA, (target, done) => {
+          this.send(...createStoreRpc(target), (err) => {
+            stored = err ? stored : stored + 1;
+            done();
+          });
+        }, callback);
+      };
+
+      async.waterfall([
+        (next) => this.iterativeFindNode(key, next),
+        (contacts, next) => dispatchStoreRpcs(contacts, next),
+        (next) => {
+          this.storage.put(key, this._createStorageItem(value), {
+            valueEncoding: 'json'
+          }, next);
+        }
+      ], () => {
+        if (stored === 0) {
+          return reject(new Error('Failed to stored entry with peers'));
+        }
+        resolve(stored);
+      });
+    });
+  }
+
+  /**
+   * Basic kademlia lookup operation that builds a set of K contacts closest
+   * to the given key
+   * @param {buffer|string} key - Reference key for node lookup
+   * @param {KademliaNode~iterativeFindNodeCallback} [callback]
+   * @returns {Promise&lt;Bucket~contact[]>}
+   */
+  iterativeFindNode(key, callback) {
+    key = key.toString('hex');
+
+    if (typeof callback === 'function') {
+      return this._iterativeFind('FIND_NODE', key).then(function() {
+        callback(null, ...arguments);
+      }, callback);
+    } else {
+      return this._iterativeFind('FIND_NODE', key);
+    }
+  }
+  /**
+   * @callback KademliaNode~iterativeFindNodeCallback
+   * @param {error|null} error
+   * @param {Bucket~contact[]} contacts - Result of the lookup operation
+   */
+
+  /**
+   * Kademlia search operation that is conducted as a node lookup and builds
+   * a list of K closest contacts. If at any time during the lookup the value
+   * is returned, the search is abandoned. If no value is found, the K closest
+   * contacts are returned. Upon success, we must store the value at the
+   * nearest node seen during the search that did not return the value.
+   * @param {buffer|string} key - Key for value lookup
+   * @param {KademliaNode~iterativeFindValueCallback} [callback]
+   * @returns {Promise&lt;object>}
+   */
+  iterativeFindValue(key, callback) {
+    key = key.toString('hex');
+
+    if (typeof callback === 'function') {
+      return this._iterativeFind('FIND_VALUE', key).then(function() {
+        callback(null, ...arguments);
+      }, callback);
+    } else {
+      return this._iterativeFind('FIND_VALUE', key);
+    }
+  }
+  /**
+   * @callback KademliaNode~iterativeFindValueCallback
+   * @param {error|null} error
+   * @param {KademliaNode~entry} value
+   * @param {null|Bucket~contact} contact - Contact responded with entry
+   */
+
+  /**
+   * Performs a scan of the storage adapter and performs
+   * republishing/replication of items stored. Items that we did not publish
+   * ourselves get republished every T_REPLICATE. Items we did publish get
+   * republished every T_REPUBLISH.
+   * @param {KademliaNode~replicateCallback} [callback]
+   * @returns {Promise}
+   */
+  replicate(callback) {
+    if (typeof callback === 'function') {
+      return this._replicate().then(callback, callback);
+    } else {
+      return this._replicate();
+    }
+  }
+  /**
+   * @callback KademliaNode~replicateCallback
+   * @param {error|null} error
+   */
+
+  /**
+   * @private
+   */
+  _replicate() {
+    const self = this;
+    const now = Date.now();
+
+    return new Promise((resolve, reject) => {
+      const itemStream = this.storage.createReadStream({
+        valueEncoding: 'json'
+      });
+      const replicateStream = new WritableStream({
+        objectMode: true,
+        write: maybeReplicate
+      });
+
+      function maybeReplicate({ key, value }, enc, next) {
+        const isPublisher = value.publisher === self.identity.toString('hex');
+        const republishDue = (value.timestamp + constants.T_REPUBLISH) &lt;= now;
+        const replicateDue = (value.timestamp + constants.T_REPLICATE) &lt;= now;
+        const shouldRepublish = isPublisher &amp;&amp; republishDue;
+        const shouldReplicate = !isPublisher &amp;&amp; replicateDue;
+
+        if (shouldReplicate || shouldRepublish) {
+          return self.iterativeStore(key, value, next);
+        }
+
+        next();
+      }
+
+      function triggerCallback(err) {
+        itemStream.removeAllListeners();
+        replicateStream.removeAllListeners();
+
+        if (err) {
+          return reject(err);
+        }
+
+        resolve();
+      }
+
+      itemStream.on('error', triggerCallback);
+      replicateStream.on('error', triggerCallback);
+      replicateStream.on('finish', triggerCallback);
+      itemStream.pipe(this.replicatePipeline).pipe(replicateStream);
+    });
+  }
+
+  /**
+   * Items expire T_EXPIRE seconds after the original publication. All items
+   * are assigned an expiration time which is "exponentially inversely
+   * proportional to the number of nodes between the current node and the node
+   * whose ID is closest to the key", where this number is "inferred from the
+   * bucket structure of the current node".
+   * @param {KademliaNode~expireCallback} [callback]
+   * @returns {Promise}
+   */
+  expire(callback) {
+    if (typeof callback === 'function') {
+      return this._expire().then(callback, callback);
+    } else {
+      return this._expire();
+    }
+  }
+  /**
+   * @callback KademliaNode~expireCallback
+   * @param {error|null} error
+   */
+
+  /**
+   * @private
+   */
+  _expire() {
+    const self = this;
+    const now = Date.now();
+
+    return new Promise((resolve, reject) => {
+      const itemStream = this.storage.createReadStream({
+        valueEncoding: 'json'
+      });
+      const expireStream = new WritableStream({
+        objectMode: true,
+        write: maybeExpire
+      });
+
+      function maybeExpire({ key, value }, enc, next) {
+        if ((value.timestamp + constants.T_EXPIRE) &lt;= now) {
+          return self.storage.del(key, next);
+        }
+
+        next();
+      }
+
+      function triggerCallback(err) {
+        itemStream.removeAllListeners();
+        expireStream.removeAllListeners();
+
+        if (err) {
+          return reject(err);
+        }
+
+        resolve();
+      }
+
+      itemStream.on('error', triggerCallback);
+      expireStream.on('error', triggerCallback);
+      expireStream.on('finish', triggerCallback);
+      itemStream.pipe(this.expirePipeline).pipe(expireStream);
+    });
+  }
+
+  /**
+   * If no node lookups have been performed in any given bucket's range for
+   * T_REFRESH, the node selects a random number in that range and does a
+   * refresh, an iterativeFindNode using that number as key.
+   * @param {number} startIndex - bucket index to start refresh from
+   * @param {KademliaNode~refreshCallback} [callback]
+   * @returns {Promise}
+   */
+  refresh(startIndex = 0, callback) {
+    if (typeof callback === 'function') {
+      return this._refresh(startIndex).then(callback, callback);
+    } else {
+      return this._refresh(startIndex);
+    }
+  }
+  /**
+   * @callback KademliaNode~refreshCallback
+   * @param {error|null} error
+   * @param {array} bucketsRefreshed
+   */
+
+  /**
+   * @private
+   */
+  _refresh(startIndex) {
+    const now = Date.now();
+    const indices = [
+      ...this.router.entries()
+    ].slice(startIndex).map((entry) => entry[0]);
+
+    // NB: We want to avoid high churn during refresh and prevent further
+    // NB: refreshes if lookups in the next bucket do not return any new
+    // NB: contacts. To do this we will shuffle the bucket indexes we are
+    // NB: going to check and only continue to refresh if new contacts were
+    // NB: discovered in the last MAX_UNIMPROVED_REFRESHES consecutive lookups.
+    let results = new Set(), consecutiveUnimprovedLookups = 0;
+
+    function isDiscoveringNewContacts() {
+      return consecutiveUnimprovedLookups &lt; constants.MAX_UNIMPROVED_REFRESHES;
+    }
+
+    return new Promise((resolve, reject) => {
+      async.eachSeries(shuffle(indices), (index, next) => {
+        if (!isDiscoveringNewContacts()) {
+          return resolve();
+        }
+
+        const lastBucketLookup = this._lookups.get(index) || 0;
+        const needsRefresh = lastBucketLookup + constants.T_REFRESH &lt;= now;
+
+        if (needsRefresh) {
+          return this.iterativeFindNode(
+            utils.getRandomBufferInBucketRange(this.identity, index)
+              .toString('hex'),
+            (err, contacts) => {
+              if (err) {
+                return next(err);
+              }
+
+              let discoveredNewContacts = false;
+
+              for (let [identity] of contacts) {
+                if (!results.has(identity)) {
+                  discoveredNewContacts = true;
+                  consecutiveUnimprovedLookups = 0;
+                  results.add(identity);
+                }
+              }
+
+              if (!discoveredNewContacts) {
+                consecutiveUnimprovedLookups++;
+              }
+
+              next();
+            }
+          );
+        }
+
+        next();
+      }, (err) => {
+        if (err) {
+          return reject(err);
+        }
+
+        resolve();
+      });
+    });
+  }
+
+  /**
+   * Builds an list of closest contacts for a particular RPC
+   * @private
+   */
+  _iterativeFind(method, key) {
+    return new Promise((resolve) => {
+      function createRpc(target) {
+        return [method, [key], target];
+      }
+
+      let shortlist = new ContactList(key, [
+        ...this.router.getClosestContactsToKey(key, constants.ALPHA)
+      ]);
+      let closest = shortlist.closest;
+
+      this._lookups.set(utils.getBucketIndex(this.identity, key), Date.now());
+
+      function iterativeLookup(selection, continueLookup = true) {
+        if (!selection.length) {
+          return resolve(shortlist.active.slice(0, constants.K));
+        }
+
+        async.each(selection, (contact, next) => {
+          // NB: mark this node as contacted so as to avoid repeats
+          shortlist.contacted(contact);
+
+          this.send(...createRpc(contact), (err, result) => {
+            if (err) {
+              return next();
+            }
+
+            // NB: mark this node as active to include it in any return values
+            shortlist.responded(contact);
+
+            // NB: If the result is a contact/node list, just keep track of it
+            // NB: Otherwise, do not proceed with iteration, just callback
+            if (Array.isArray(result) || method !== 'FIND_VALUE') {
+              shortlist
+                .add(Array.isArray(result) ? result : [])
+                .forEach(contact => {
+                  // NB: If it wasn't in the shortlist, we haven't added to the
+                  // NB: routing table, so do that now.
+                  this._updateContact(...contact);
+                });
+
+              return next();
+            }
+
+            // NB: If we did get an item back, get the closest node we contacted
+            // NB: who is missing the value and store a copy with them
+            const closestMissingValue = shortlist.active[0]
+
+            if (closestMissingValue) {
+              this.send('STORE', [
+                key,
+                this._createStorageItem(result)
+              ], closestMissingValue, () => null);
+            }
+
+            // NB: we found a value, so stop searching
+            resolve(result, contact);
+          });
+        }, () => {
+
+          // NB: If we have reached at least K active nodes, or haven't found a
+          // NB: closer node, even on our finishing trip, return to the caller
+          // NB: the K closest active nodes.
+          if (shortlist.active.length >= constants.K ||
+            (closest[0] === shortlist.closest[0] &amp;&amp; !continueLookup)
+          ) {
+            return resolve(shortlist.active.slice(0, constants.K));
+          }
+
+          // NB: we haven't discovered a closer node, call k uncalled nodes and
+          // NB: finish up
+          if (closest[0] === shortlist.closest[0]) {
+            return iterativeLookup.call(
+              this,
+              shortlist.uncontacted.slice(0, constants.K),
+              false
+            );
+          }
+
+          closest = shortlist.closest;
+
+          // NB: continue the lookup with ALPHA close, uncontacted nodes
+          iterativeLookup.call(
+            this,
+            shortlist.uncontacted.slice(0, constants.ALPHA),
+            true
+          );
+        });
+      }
+
+      iterativeLookup.call(
+        this,
+        shortlist.uncontacted.slice(0, constants.ALPHA),
+        true
+      );
+    });
+  }
+  /**
+   * Adds the given contact to the routing table
+   * @private
+   */
+  _updateContact(identity, contact) {
+    this._updateContactQueue.push({ identity, contact }, (err, headId) => {
+      if (err) {
+        this.router.removeContactByNodeId(headId);
+        this.router.addContactByNodeId(identity, contact);
+      }
+    });
+  }
+
+  /**
+   * Worker for updating contact in a routing table bucket
+   * @private
+   */
+  _updateContactWorker(task, callback) {
+    const { identity, contact } = task;
+
+    if (identity === this.identity.toString('hex')) {
+      return callback();
+    }
+
+    const now = Date.now();
+    const reset = 600000;
+    const [, bucket, contactIndex] = this.router.addContactByNodeId(
+      identity,
+      contact
+    );
+
+    const [headId, headContact] = bucket.head;
+    const lastPing = this._pings.get(headId);
+
+    if (contactIndex !== -1) {
+      return callback();
+    }
+
+    if (lastPing &amp;&amp; lastPing.responded &amp;&amp; lastPing.timestamp > (now - reset)) {
+      return callback();
+    }
+
+    this.ping([headId, headContact], (err) => {
+      this._pings.set(headId, { timestamp: Date.now(), responded: !err });
+      callback(err, headId);
+    });
+  }
+
+}
+
+module.exports = KademliaNode;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<br class="clear">
+
+<footer>
+    Generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.6.11</a> on Fri Nov 08 2024 12:34:06 GMT-0800 (Pacific Standard Time) using the Minami theme.
+</footer>
+
+<script>prettyPrint();</script>
+<script src="scripts/linenumber.js"></script>
+</body>
+</html>
