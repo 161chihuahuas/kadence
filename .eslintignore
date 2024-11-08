@@ -1,0 +1,5 @@
+doc/**/*.js
+doc/*.js
+node_modules/**/*.js
+test/*
+plugin-onion.js
