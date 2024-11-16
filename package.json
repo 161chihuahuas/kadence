@@ -67,12 +67,12 @@
   "description": "extensible, hardened, and flexible distributed systems framework",
   "devDependencies": {
     "chai": "^2.2.0",
+    "clean-jsdoc-theme": "^4.3.0",
     "coveralls": "^3.0.1",
     "eslint": "^5.14.1",
     "istanbul": "^1.1.0-alpha.1",
     "jsdoc": "^3.6.3",
     "memdown": "^2.0.0",
-    "minami": "^1.2.3",
     "mocha": "^5.2.0",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
