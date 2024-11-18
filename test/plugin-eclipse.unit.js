@@ -17,7 +17,7 @@ describe('@module kadence/eclipse', function() {
     const prv = utils.generatePrivateKey();
     const pub = secp256k1.publicKeyCreate(prv);
 
-    it.skip('should validate the contact', function(done) {
+    it('should validate the contact', function(done) {
       const rules = new eclipse.EclipseRules({});
       const ident = new eclipse.EclipseIdentity(pub);
       ident.solve().then(() => {

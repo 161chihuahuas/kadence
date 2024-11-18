@@ -30,6 +30,7 @@
   "dependencies": {
     "@tacticalchihuahua/diglet": "github:tacticalchihuahua/diglet",
     "@tacticalchihuahua/granax": "github:tacticalchihuahua/granax",
+    "@tacticalchihuahua/equihash": "1.0.0",
     "async": "^2.6.0",
     "atbf": "^1.1.0",
     "boscar": "^2.0.0",
