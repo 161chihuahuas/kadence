@@ -183,13 +183,20 @@ async function _init() {
   );
 
   // If identity is not solved yet, start trying to solve it
-//  if (!identity.validate()) {
-    logger.warn('eclipse plugin is busted , equihash bindings are old and incompatible with gcc-11')
-    // logger.warn(`identity proof not yet solved, this can take a while`);
-    // await identity.solve();
-    // fs.writeFileSync(config.IdentityNoncePath, identity.nonce.toString());
-    // fs.writeFileSync(config.IdentityProofPath, identity.proof);
-//  }
+  let identityHasValidProof = false;
+
+  try {
+    identityHasValidProof = await identity.validate();
+  } catch (err) {
+    logger.error(err.message);
+  }
+
+  if (!identityHasValidProof) {
+    logger.warn(`identity proof not yet solved, this can take a while`);
+    await identity.solve();
+    fs.writeFileSync(config.IdentityNoncePath, identity.nonce.toString());
+    fs.writeFileSync(config.IdentityProofPath, identity.proof);
+  }
 
   init();
 }

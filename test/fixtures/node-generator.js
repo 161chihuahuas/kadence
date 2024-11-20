@@ -21,7 +21,7 @@ module.exports = function(numNodes, Transport) {
 
   function createNode() {
     let transport = new Transport();
-    let contact = { hostname: 'localhost', port: startPort-- };
+    let contact = { hostname: '127.0.0.1', port: startPort-- };
 
     return new kadence.KademliaNode({
       transport: transport,

@@ -1,6 +1,6 @@
 'use strict';
 
-const { EventEmitter } = require('events');
+const { EventEmitter } = require('node:events');
 const bunyan = require('bunyan');
 const sinon = require('sinon');
 const { expect } = require('chai');
@@ -94,7 +94,7 @@ describe('@module kadence/traverse', function() {
 
     it('should callback true if ping succeeds', function(done) {
       let plugin = new TraversePlugin({
-        contact: { hostname: 'public.hostname', port: 8080 },
+        contact: { hostname: '52.250.42.157', port: 8080 },
         ping: sandbox.stub().callsArgWith(1, null),
         identity: Buffer.from('nodeid'),
         logger

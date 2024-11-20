@@ -57,7 +57,7 @@ describe('@class AbstractNode / @class HTTPTransport', function() {
     node1.send(
       'TEST',
       ['test parameter'],
-      [node2.identity.toString('hex'), { hostname: 'localhost', port: 1 }],
+      [node2.identity.toString('hex'), { hostname: '127.0.0.1', port: 1 }],
       function(err) {
         expect(err.code).to.equal('ECONNREFUSED');
         done();
