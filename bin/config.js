@@ -1,10 +1,10 @@
 'use strict';
 
 const ini = require('ini');
-const { existsSync, writeFileSync } = require('fs');
+const { existsSync, writeFileSync } = require('node:fs');
 const mkdirp = require('mkdirp');
-const { tmpdir, homedir } = require('os');
-const { join } = require('path');
+const { tmpdir, homedir } = require('node:os');
+const { join } = require('node:path');
 
 const DEFAULT_DATADIR = join(homedir(), '.config/kadence');
 

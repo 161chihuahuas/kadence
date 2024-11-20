@@ -28,9 +28,9 @@
     }
   ],
   "dependencies": {
-    "@tacticalchihuahua/diglet": "github:tacticalchihuahua/diglet",
-    "@tacticalchihuahua/granax": "github:tacticalchihuahua/granax",
-    "@tacticalchihuahua/equihash": "1.0.0",
+    "@tacticalchihuahua/diglet": "^4.0.0",
+    "@tacticalchihuahua/equihash": "^1.0.0",
+    "@tacticalchihuahua/granax": "^3.3.0",
     "async": "^2.6.0",
     "atbf": "^1.1.0",
     "boscar": "^2.0.0",
@@ -45,8 +45,8 @@
     "json-stable-stringify": "^1.0.1",
     "jsonrpc-lite": "^1.3.0",
     "knuth-shuffle": "^1.0.8",
-    "leveldown": "^4.0.2",
-    "levelup": "^4.0.0",
+    "leveldown": "^6.1.1",
+    "levelup": "^5.1.1",
     "lru-cache": "^4.1.1",
     "merge": "^1.2.1",
     "metapipe": "^2.0.2",
@@ -107,5 +107,5 @@
     "unit-tests": "mocha --exit test/*.unit.js",
     "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"
   },
-  "version": "7.0.0-unstable"
+  "version": "7.0.0"
 }

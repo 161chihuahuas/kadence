@@ -13,7 +13,7 @@ describe('@class UDPTransport', function() {
     it('should add error listener to socket', function(done) {
       const socket = new EventEmitter();
       const FakeUDPTransport = proxyquire('../lib/transport-udp', {
-        dgram: {
+        'node:dgram': {
           createSocket: () => socket
         }
       });
@@ -33,7 +33,7 @@ describe('@class UDPTransport', function() {
       const socket = new EventEmitter();
       socket.send = stub();
       const FakeUDPTransport = proxyquire('../lib/transport-udp', {
-        dgram: {
+        'node:dgram': {
           createSocket: () => socket
         }
       });
@@ -63,7 +63,7 @@ describe('@class UDPTransport', function() {
     it('should emit data for every message received', function(done) {
       const socket = new EventEmitter();
       const FakeUDPTransport = proxyquire('../lib/transport-udp', {
-        dgram: {
+        'node:dgram': {
           createSocket: () => socket
         }
       });
@@ -96,7 +96,7 @@ describe('@class UDPTransport', function() {
       const socket = new EventEmitter();
       socket.bind = stub();
       const FakeUDPTransport = proxyquire('../lib/transport-udp', {
-        dgram: {
+        'node:dgram': {
           createSocket: () => socket
         }
       });

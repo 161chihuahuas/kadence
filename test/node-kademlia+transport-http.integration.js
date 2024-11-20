@@ -59,7 +59,7 @@ describe('@class AbstractNode / @class HTTPTransport', function() {
       ['test parameter'],
       [node2.identity.toString('hex'), { hostname: 'localhost', port: 1 }],
       function(err) {
-        expect(err.message).to.equal('connect ECONNREFUSED 127.0.0.1:1');
+        expect(err.code).to.equal('ECONNREFUSED');
         done();
       }
     );

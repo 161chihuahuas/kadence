@@ -9,15 +9,15 @@
 // NB: identified by public key hashes and verified by signatures.
 process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
 
-const { homedir } = require('os');
-const assert = require('assert');
+const { homedir } = require('node:os');
+const assert = require('node:assert');
 const async = require('async');
 const program = require('commander');
 const kadence = require('../index');
 const bunyan = require('bunyan');
 const RotatingLogStream = require('bunyan-rotating-file-stream');
-const fs = require('fs');
-const path = require('path');
+const fs = require('node:fs');
+const path = require('node:path');
 const options = require('./config');
 const npid = require('npid');
 const daemon = require('daemon');
@@ -25,8 +25,8 @@ const pem = require('pem');
 const levelup = require('levelup');
 const leveldown = require('leveldown');
 const boscar = require('boscar');
-const { fork } = require('child_process');
-const os = require('os');
+const { fork } = require('node:child_process');
+const os = require('node:os');
 const ms = require('ms');
 const rc = require('rc');
 const ini = require('ini');

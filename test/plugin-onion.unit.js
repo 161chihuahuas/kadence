@@ -23,7 +23,7 @@ describe('@module kademlia/onion', function() {
       controller.removeEventListeners = stub().callsArg(0);
       let onionStubbed = proxyquire('../lib/plugin-onion', {
         '@tacticalchihuahua/granax/hsv3': stub().returns(controller),
-        fs: {
+        'node:fs': {
           readFileSync: stub().returns(
             Buffer.from('myonionaddress.onion')
           )
