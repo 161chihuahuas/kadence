@@ -3,17 +3,11 @@
 
 'use strict';
 
-// NB: We use self-signed certificates, *however*, we perform our own
-// NB: authentication/authorization via ECDSA, so this is fine. We don't
-// NB: care about certificate authorities, just TLS, because our nodes
-// NB: identified by public key hashes and verified by signatures.
-process.env.NODE_TLS_REJECT_UNAUTHORIZED = '0';
-
 const { homedir } = require('node:os');
 const assert = require('node:assert');
 const async = require('async');
 const program = require('commander');
-const kadence = require('../index');
+const dusk = require('../index');
 const bunyan = require('bunyan');
 const RotatingLogStream = require('bunyan-rotating-file-stream');
 const fs = require('node:fs');
@@ -25,32 +19,25 @@ const pem = require('pem');
 const levelup = require('levelup');
 const leveldown = require('leveldown');
 const boscar = require('boscar');
-const { fork } = require('node:child_process');
-const os = require('node:os');
-const ms = require('ms');
 const rc = require('rc');
-const ini = require('ini');
 const encoding = require('encoding-down');
 const secp256k1 = require('secp256k1');
 
 
-program.version(`
-  kadence  ${kadence.version.software}
-  protocol ${kadence.version.protocol}
-`);
+program.version(dusk.version.software);
 
 program.description(`
-  Copyright (c) 2019 Lily Anne Hall.
+  Copyright (c) 2019 Tactical Chihuahua
   Licensed under the GNU Affero General Public License Version 3
 `);
 
-program.option('--config <file>', 'path to a kadence configuration file',
-  path.join(homedir(), '.config/kadence/config'));
+program.option('--config <file>', 'path to a dusk configuration file',
+  path.join(homedir(), '.config/dusk/dusk.ini'));
 program.option('--datadir <path>', 'path to the default data directory',
-  path.join(homedir(), '.config/kadence'));
+  path.join(homedir(), '.config/dusk'));
 program.option('--shutdown', 'sends the shutdown signal to the daemon');
 program.option('--testnet', 'runs with reduced identity difficulty');
-program.option('--daemon', 'sends the kadence daemon to the background');
+program.option('--daemon', 'sends the dusk daemon to the background');
 program.option('--rpc <method> [params]', 'send a command to the daemon');
 program.parse(process.argv);
 
@@ -62,34 +49,16 @@ if (program.datadir) {
 }
 
 if (program.testnet) {
-  process.env.kadence_TestNetworkEnabled = '1';
+  process.env.dusk_TestNetworkEnabled = '1';
 }
 
-let config = rc('kadence', options(program.datadir), argv);
+let config = rc('dusk', options(program.datadir), argv);
 let privkey, identity, logger, controller, node, nonce, proof;
 
 
-// Handle certificate generation
-function _generateSelfSignedCertificate() {
-  return new Promise((resolve, reject) => {
-    pem.createCertificate({
-      days: 365,
-      selfSigned: true
-    }, (err, keys) => {
-      if (err) {
-        return reject(err);
-      }
-
-      fs.writeFileSync(config.SSLKeyPath, keys.serviceKey);
-      fs.writeFileSync(config.SSLCertificatePath, keys.certificate);
-      resolve();
-    });
-  });
-}
-
 // Initialize logging
 logger = bunyan.createLogger({
-  name: 'kadence',
+  name: 'dusk',
   streams: [
     {
       stream: new RotatingLogStream({
@@ -105,21 +74,15 @@ logger = bunyan.createLogger({
 });
 
 if (parseInt(config.TestNetworkEnabled)) {
-  logger.info('kadence is running in test mode, difficulties are reduced');
-  process.env.kadence_TestNetworkEnabled = config.TestNetworkEnabled;
-  kadence.constants.IDENTITY_DIFFICULTY = kadence.constants.TESTNET_DIFFICULTY;
-}
-
-if (parseInt(config.TraverseNatEnabled) && parseInt(config.OnionEnabled)) {
-  logger.error('refusing to start with both TraverseNatEnabled and ' +
-    'OnionEnabled - this is a privacy risk');
-  process.exit(1);
+  logger.info('dusk is running in test mode, difficulties are reduced');
+  process.env.dusk_TestNetworkEnabled = config.TestNetworkEnabled;
+  dusk.constants.IDENTITY_DIFFICULTY = dusk.constants.TESTNET_DIFFICULTY;
 }
 
 async function _init() {
   // Generate a private extended key if it does not exist
   if (!fs.existsSync(config.PrivateKeyPath)) {
-    fs.writeFileSync(config.PrivateKeyPath, kadence.utils.generatePrivateKey());
+    fs.writeFileSync(config.PrivateKeyPath, dusk.utils.generatePrivateKey());
   }
 
   if (fs.existsSync(config.IdentityProofPath)) {
@@ -142,10 +105,6 @@ async function _init() {
     process.exit();
   }
 
-  if (parseInt(config.SSLEnabled) && !fs.existsSync(config.SSLKeyPath)) {
-    await _generateSelfSignedCertificate();
-  }
-
   if (program.daemon) {
     require('daemon')({ cwd: process.cwd() });
   }
@@ -153,7 +112,7 @@ async function _init() {
   try {
     npid.create(config.DaemonPidFilePath).removeOnExit();
   } catch (err) {
-    logger.error('Failed to create PID file, is kadence already running?');
+    logger.error('Failed to create PID file, is dusk already running?');
     process.exit(1);
   }
 
@@ -176,7 +135,7 @@ async function _init() {
 
   // Initialize private extended key
   privkey = fs.readFileSync(config.PrivateKeyPath);
-  identity = new kadence.eclipse.EclipseIdentity(
+  identity = new dusk.eclipse.EclipseIdentity(
     secp256k1.publicKeyCreate(privkey),
     nonce,
     proof
@@ -220,7 +179,7 @@ function registerControlInterface() {
            parseInt(config.ControlSockEnabled)),
   'ControlSock and ControlPort cannot both be enabled');
 
-  controller = new boscar.Server(new kadence.Control(node));
+  controller = new boscar.Server(new dusk.Control(node));
 
   if (parseInt(config.ControlPortEnabled)) {
     logger.info('binding controller to port ' + config.ControlPort);
@@ -234,105 +193,53 @@ function registerControlInterface() {
 }
 
 async function init() {
-  logger.info('initializing kadence');
+  logger.info('initializing dusk');
 
   // Initialize public contact data
   const contact = {
-    hostname: config.NodePublicAddress,
-    protocol: parseInt(config.SSLEnabled) ? 'https:' : 'http:',
+    hostname: '',
+    protocol: 'http:',
     port: parseInt(config.NodePublicPort)
   };
 
-  let transport;
-
-  if (parseInt(config.SSLEnabled)) {
-    const key = fs.readFileSync(config.SSLKeyPath);
-    const cert = fs.readFileSync(config.SSLCertificatePath);
-    const ca = config.SSLAuthorityPaths.map(fs.readFileSync);
-
-    transport = new kadence.HTTPSTransport({ key, cert, ca });
-  } else {
-    transport = new kadence.HTTPTransport();
-  }
+  const transport = new dusk.HTTPTransport();
 
   // Initialize protocol implementation
-  node = new kadence.KademliaNode({
+  node = new dusk.KademliaNode({
     logger,
     transport,
     contact,
     storage: levelup(encoding(leveldown(config.EmbeddedDatabaseDirectory)))
   });
 
-  node.hashcash = node.plugin(kadence.hashcash({
+  node.hashcash = node.plugin(dusk.hashcash({
     methods: ['PUBLISH', 'SUBSCRIBE'],
     difficulty: 8
   }));
-  node.quasar = node.plugin(kadence.quasar());
-  node.spartacus = node.plugin(kadence.spartacus(privkey, {
+  node.quasar = node.plugin(dusk.quasar());
+  node.spartacus = node.plugin(dusk.spartacus(privkey, {
     checkPublicKeyHash: false
   }));
-  node.content = node.plugin(kadence.contentaddress({
+  node.content = node.plugin(dusk.contentaddress({
     valueEncoding: 'hex'
   }));
-  node.eclipse = node.plugin(kadence.eclipse(identity)); // NB: Equihash is busted
-  node.rolodex = node.plugin(kadence.rolodex(config.EmbeddedPeerCachePath));
-
-  // Check if we need to enable the churn filter plugin (experimental)
-  if (parseInt(config.ChurnFilterEnabled)) {
-    node.blacklist = node.plugin(kadence.churnfilter({
-      cooldownBaseTimeout: config.ChurnCoolDownBaseTimeout,
-      cooldownMultiplier: parseInt(config.ChurnCoolDownMultiplier),
-      cooldownResetTime: config.ChurnCoolDownResetTime
-    }));
-  }
-
-  // Hibernate when bandwidth thresholds are reached
-  if (!!parseInt(config.BandwidthAccountingEnabled)) {
-    node.hibernate = node.plugin(kadence.hibernate({
-      limit: config.BandwidthAccountingMax,
-      interval: config.BandwidthAccountingReset,
-      reject: ['FIND_VALUE', 'STORE']
-    }));
-  }
+  node.eclipse = node.plugin(dusk.eclipse(identity));
 
   // Use Tor for an anonymous overlay
-  if (!!parseInt(config.OnionEnabled)) {
-    kadence.constants.T_RESPONSETIMEOUT = 20000;
-    node.onion = node.plugin(kadence.onion({
-      dataDirectory: config.OnionHiddenServiceDirectory,
-      virtualPort: config.OnionVirtualPort,
-      localMapping: `127.0.0.1:${config.NodeListenPort}`,
-      torrcEntries: {
-        CircuitBuildTimeout: 10,
-        KeepalivePeriod: 60,
-        NewCircuitPeriod: 60,
-        NumEntryGuards: 8,
-        Log: `${config.OnionLoggingVerbosity} stdout`
-      },
-      passthroughLoggingEnabled: !!parseInt(config.OnionLoggingEnabled)
-    }));
-  }
-
-  // Punch through NATs
-  if (!!parseInt(config.TraverseNatEnabled)) {
-    node.traverse = node.plugin(kadence.traverse([
-      new kadence.traverse.UPNPStrategy({
-        mappingTtl: parseInt(config.TraversePortForwardTTL),
-        publicPort: parseInt(node.contact.port)
-      }),
-      new kadence.traverse.NATPMPStrategy({
-        mappingTtl: parseInt(config.TraversePortForwardTTL),
-        publicPort: parseInt(node.contact.port)
-      }),
-      new kadence.traverse.ReverseTunnelStrategy({
-        remoteAddress: config.TraverseReverseTunnelHostname,
-        remotePort: parseInt(config.TraverseReverseTunnelPort),
-        privateKey: node.spartacus.privateKey,
-        secureLocalConnection: parseInt(config.SSLEnabled),
-        verboseLogging: parseInt(config.VerboseLoggingEnabled)
-      })
-    ]));
-  }
+  dusk.constants.T_RESPONSETIMEOUT = 20000;
+  node.onion = node.plugin(dusk.onion({
+    dataDirectory: config.OnionHiddenServiceDirectory,
+    virtualPort: config.OnionVirtualPort,
+    localMapping: `127.0.0.1:${config.NodeListenPort}`,
+    torrcEntries: {
+      CircuitBuildTimeout: 10,
+      KeepalivePeriod: 60,
+      NewCircuitPeriod: 60,
+      NumEntryGuards: 8,
+      Log: `${config.OnionLoggingVerbosity} stdout`
+    },
+    passthroughLoggingEnabled: !!parseInt(config.OnionLoggingEnabled)
+  }));
 
   // Handle any fatal errors
   node.on('error', (err) => {
@@ -341,7 +248,7 @@ async function init() {
 
   // Use verbose logging if enabled
   if (!!parseInt(config.VerboseLoggingEnabled)) {
-    node.plugin(kadence.logger(logger));
+    node.plugin(dusk.logger(logger));
   }
 
   // Cast network nodes to an array
@@ -350,17 +257,15 @@ async function init() {
   }
 
   async function joinNetwork(callback) {
-    let peers = config.NetworkBootstrapNodes.concat(
-      await node.rolodex.getBootstrapCandidates()
-    );
+    let peers = config.NetworkBootstrapNodes;
 
     if (peers.length === 0) {
-      logger.info('no bootstrap seeds provided and no known profiles');
+      logger.info('no bootstrap seeds provided');
       logger.info('running in seed mode (waiting for connections)');
 
       return node.router.events.once('add', (identity) => {
         config.NetworkBootstrapNodes = [
-          kadence.utils.getContactURL([
+          dusk.utils.getContactURL([
             identity,
             node.router.getContactByNodeId(identity)
           ])
@@ -371,7 +276,7 @@ async function init() {
 
     logger.info(`joining network from ${peers.length} seeds`);
     async.detectSeries(peers, (url, done) => {
-      const contact = kadence.utils.parseContactURL(url);
+      const contact = dusk.utils.parseContactURL(url);
       node.join(contact, (err) => {
         done(null, (err ? false : true) && node.router.size > 1);
       });
