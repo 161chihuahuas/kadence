@@ -13,7 +13,7 @@ const async = require('async');
 const { get_gateway_ip: getGatewayIp } = require('network');
 const natpmp = require('nat-pmp');
 const natupnp = require('nat-upnp');
-const url = require('url');
+const url = require('node:url');
 const diglet = require('@tacticalchihuahua/diglet');
 
 
@@ -82,8 +82,13 @@ class TraversePlugin {
    * @private
    */
   _testIfReachable(callback) {
-    if (!ip.isPublic(this.node.contact.hostname)) {
-      this.node.logger.warn('traversal strategy failed, not reachable');
+    try {
+      if (!ip.isPublic(this.node.contact.hostname)) {
+        this.node.logger.warn('traversal strategy failed, not reachable');
+        return callback(null, false);
+      }
+    } catch (err) {
+      this.node.logger.warn(err.message);
       return callback(null, false);
     }
 

@@ -1,4 +1,4 @@
-# Kadence
+# kadence *p2p application framework*
 
 Kadence is a complete implementation of the 
 [Kademlia](http://www.scs.stanford.edu/%7Edm/home/papers/kpos.pdf) distributed 
@@ -11,14 +11,12 @@ providing a complete reference implementation of a Kadence network.
 Ready to get started?
 
 ```
-$ npm install -g @tacticalchihuahua/kadence
-$ kadence --help
+npm install @tacticalchihuahua/kadence
 ```
 
 If you're new to Kadence, check out our tutorial for {@tutorial quickstart}!
 
-Features
---------
+## features
 
 ### Publish & Subscribe
 
@@ -112,8 +110,7 @@ application logic. Users of [Express](https://expressjs.com/) will find it
 comfortable and familiar. If you are new to building distributed systems, you 
 will find it easy to get started.
 
-Research
---------
+## research
 
 Kadence is used in academic research on distributed systems. Here are some 
 notable papers!
@@ -123,11 +120,10 @@ notable papers!
 * [DHT-based collaborative Web Translation](https://etd.ohiolink.edu/!etd.send_file?accession=ucin1479821556144121&disposition=inline)
 * [Kademlia with Consistency Checks as a Foundation of Borderless Collaboration in Open Science Services](https://www.sciencedirect.com/science/article/pii/S1877050916327041)
 
-License
--------
+## license
 
-Kadence - Extensible, Hardened, and Secure Distributed Systems Framework  
-Copyright (C) 2019 Lily Anne Hall.
+> Kadence - p2p application framework  
+> Copyright (C) 2019 Lily Anne Hall.
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by

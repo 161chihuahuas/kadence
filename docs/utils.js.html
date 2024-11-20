@@ -7,15 +7,16 @@
 'use strict';
 
 const secp256k1 = require('secp256k1');
-const url = require('url');
+const url = require('node:url');
 const constants = require('./constants');
 const semver = require('semver');
 const ip = require('ip');
-const crypto = require('crypto');
-const assert = require('assert');
+const crypto = require('node:crypto');
+const assert = require('node:assert');
 const { randomBytes, createHash } = crypto;
 const ms = require('ms');
-//const equihash = require('equihash/lib/khovratovich'); // does not build on gcc-11 +
+const equihash = require('@tacticalchihuahua/equihash');
+const onionRegex = require('onion-regex');
 
 
 /**
@@ -253,9 +254,7 @@ module.exports.hash256 = function(input) {
  * @param {buffer} input - Input hash to solve
  * @returns {Promise&lt;EquihashProof>}
  */
-module.exports.eqsolve = function() {
-  return Promise.reject(new Error('Equihash implementation is not functional'));
-};
+module.exports.eqsolve = equihash.solve;
 
 /**
  * Perform an equihash proof verification
@@ -263,10 +262,7 @@ module.exports.eqsolve = function() {
  * @param {buffer} proof - Equihash proof to verify
  * @returns {boolean}
  */
-module.exports.eqverify = function(/*input, proof*/) {
-  throw new Error('Equihash implementation is not functional');
-  // return equihash.verify(input, proof);
-};
+module.exports.eqverify = equihash.verify;
 
 /**
  * Returns the RMD-160 hash of the input
@@ -334,7 +330,8 @@ module.exports.isValidContact = function(contact, loopback) {
   const [, info] = contact;
   const isValidAddr = ip.isV4Format(info.hostname) ||
                       ip.isV6Format(info.hostname) ||
-                      ip.isPublic(info.hostname);
+                      ip.isPublic(info.hostname) ||
+                      onionRegex.v3({ exact: true }).test(info.hostname);
   const isValidPort = info.port > 0;
   const isAllowedAddr = ip.isLoopback(info.hostname) ? !!loopback : true;
 
