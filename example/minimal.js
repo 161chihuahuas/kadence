@@ -1,5 +1,5 @@
 /**
- * @example kadence/example/minimal
+ * @example dusk/example/minimal
  */
 
 'use strict';
@@ -9,7 +9,7 @@ const bunyan = require('bunyan');
 const levelup = require('levelup');
 const leveldown = require('leveldown');
 const encoding = require('encoding-down');
-const kadence = require('@tacticalchihuahua/kadence');
+const dusk = require('@tacticalchihuahua/dusk');
 
 // Construct a kademlia node interface; the returned `KademliaNode` object
 // exposes:
@@ -17,8 +17,8 @@ const kadence = require('@tacticalchihuahua/kadence');
 // - rpc
 // - storage
 // - identity
-const node = new kadence.KademliaNode({
-  transport: new kadence.HTTPTransport(),
+const node = new dusk.KademliaNode({
+  transport: new dusk.HTTPTransport(),
   storage: levelup(encoding(leveldown('path/to/storage.db'))),
   contact: { hostname: 'localhost', port: 1337 }
 });

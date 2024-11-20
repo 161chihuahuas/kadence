@@ -3,7 +3,7 @@
 const bunyan = require('bunyan');
 const levelup = require('levelup');
 const memdown = require('memdown');
-const kadence = require('../..');
+const dusk = require('../..');
 const encoding = require('encoding-down');
 
 let startPort = 65000;
@@ -23,7 +23,7 @@ module.exports = function(numNodes, Transport) {
     let transport = new Transport();
     let contact = { hostname: '127.0.0.1', port: startPort-- };
 
-    return new kadence.KademliaNode({
+    return new dusk.KademliaNode({
       transport: transport,
       contact: contact,
       storage: storage,

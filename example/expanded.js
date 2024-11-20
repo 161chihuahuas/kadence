@@ -1,9 +1,9 @@
 /**
- * @example kadence/example/expanded
+ * @example dusk/example/expanded
  */
 
-// NB: For a complete example of a full kadence implementation, see the daemon
-// NB: implementation in bin/kadence.js
+// NB: For a complete example of a full dusk implementation, see the daemon
+// NB: implementation in bin/dusk.js
 
 'use strict';
 
@@ -13,16 +13,16 @@ const bunyan = require('bunyan');
 const levelup = require('levelup');
 const encoding = require('encoding-down');
 const leveldown = require('leveldown');
-const kadence = require('@tacticalchihuahua/kadence');
+const dusk = require('@tacticalchihuahua/dusk');
 
 // Prepare required options
 const storage = levelup(encoding(leveldown('path/to/storage.db')));
-const logger = bunyan.createLogger({ name: 'kadence example' });
-const transport = new kadence.HTTPTransport();
+const logger = bunyan.createLogger({ name: 'dusk example' });
+const transport = new dusk.HTTPTransport();
 
 // In production, persist identity to disk and load it
 // Generating a new one every time will cause lookup problems
-const identity = kadence.utils.getRandomKeyBuffer();
+const identity = dusk.utils.getRandomKeyBuffer();
 const contact = { hostname: 'localhost', port: 1337 };
 
 // Construct a kademlia node interface; the returned `Node` object exposes:
@@ -30,7 +30,7 @@ const contact = { hostname: 'localhost', port: 1337 };
 // - rpc
 // - storage
 // - identity
-const node = new kadence.KademliaNode({
+const node = new dusk.KademliaNode({
   transport,
   storage,
   logger,
@@ -40,7 +40,7 @@ const node = new kadence.KademliaNode({
 
 // Use rule "extensions" from plugins to add additional functionality.
 // Plugins can also extend the `KademliaNode` object with additional methods
-node.plugin(kadence.quasar());
+node.plugin(dusk.quasar());
 
 // Use "global" rules for preprocessing *all* incoming messages
 // This is useful for things like blacklisting certain nodes

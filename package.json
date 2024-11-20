@@ -4,10 +4,10 @@
     "email": "lily@tacticalchihuahua.lol"
   },
   "bin": {
-    "kadence": "bin/kadence.js"
+    "dusk": "bin/dusk.js"
   },
   "bugs": {
-    "url": "https://github.com/tacticalchihuahua/kadence/issues"
+    "url": "https://github.com/tacticalchihuahua/dusk/issues"
   },
   "contributors": [
     {
@@ -86,14 +86,14 @@
   "engines": {
     "node": ">=10.x.x"
   },
-  "homepage": "https://tacticalchihuahua.lol/kadence",
+  "homepage": "https://tacticalchihuahua.lol/dusk",
   "keywords": [],
   "license": "AGPL-3.0",
   "main": "index.js",
-  "name": "@tacticalchihuahua/kadence",
+  "name": "@tacticalchihuahua/dusk",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tacticalchihuahua/kadence.git"
+    "url": "git+https://github.com/tacticalchihuahua/dusk.git"
   },
   "scripts": {
     "clean": "docker rm $(docker ps -a -q --filter 'network=kadence_default')",
@@ -106,5 +106,5 @@
     "unit-tests": "mocha --exit test/*.unit.js",
     "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"
   },
-  "version": "7.0.0"
+  "version": "1.0.0"
 }

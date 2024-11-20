@@ -2,12 +2,12 @@
 
 const { expect } = require('chai');
 const sinon = require('sinon');
-const kadence = require('..');
+const dusk = require('..');
 const { SpartacusPlugin } = require('../lib/plugin-spartacus');
 const utils = require('../lib/utils');
 
 
-describe('@module kadence/spartacus', function() {
+describe('@module dusk/spartacus', function() {
 
   describe('@constructor', function() {
 
@@ -46,7 +46,7 @@ describe('@module kadence/spartacus', function() {
         use: sinon.stub()
       };
       let plugin = new SpartacusPlugin(node);
-      kadence.Messenger.JsonRpcSerializer([
+      dusk.Messenger.JsonRpcSerializer([
         { method: 'PING', params: [] },
         [
           plugin.identity.toString('hex'),

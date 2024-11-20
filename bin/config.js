@@ -27,8 +27,8 @@ module.exports = function(datadir) {
 
     // Node Options
     NodeListenPort: '5274',
-    OnionVirtualPort: '443',
-    OnionHiddenServiceDirectory: join(datadir, 'hidden_service'),
+    OnionVirtualPort: '80',
+    OnionHiddenServiceDirectory: join(datadir, 'tor.conf'),
     OnionLoggingVerbosity: 'notice',
     OnionLoggingEnabled: '0',
 

@@ -3,6 +3,7 @@
 
 'use strict';
 
+const { spawn } = require('node:child_process');
 const { homedir } = require('node:os');
 const assert = require('node:assert');
 const async = require('async');
@@ -22,15 +23,27 @@ const boscar = require('boscar');
 const rc = require('rc');
 const encoding = require('encoding-down');
 const secp256k1 = require('secp256k1');
+const readline = require('node:readline');
 
 
 program.version(dusk.version.software);
 
-program.description(`
-  Copyright (c) 2019 Tactical Chihuahua
-  Licensed under the GNU Affero General Public License Version 3
-`);
+const description = `
+             _/                      _/      
+        _/_/_/  _/    _/    _/_/_/  _/  _/   
+     _/    _/  _/    _/  _/_/      _/_/      
+    _/    _/  _/    _/      _/_/  _/  _/     
+     _/_/_/    _/_/_/  _/_/_/    _/    _/    
 
+        (d)arknet (u)nder (s/k)ademlia
+
+                    ~ Ⓐ ~
+                                           
+     copyleft N©! 2024 tactical chihuahua 
+         licensed under the AGPL-3.0
+`;
+
+program.description(description);
 program.option('--config <file>', 'path to a dusk configuration file',
   path.join(homedir(), '.config/dusk/dusk.ini'));
 program.option('--datadir <path>', 'path to the default data directory',
@@ -38,7 +51,9 @@ program.option('--datadir <path>', 'path to the default data directory',
 program.option('--shutdown', 'sends the shutdown signal to the daemon');
 program.option('--testnet', 'runs with reduced identity difficulty');
 program.option('--daemon', 'sends the dusk daemon to the background');
-program.option('--rpc <method> [params]', 'send a command to the daemon');
+program.option('--rpc [method] [params]', 'send a command to the daemon');
+program.option('--repl', 'starts the interactive rpc console');
+program.option('--logs', 'tails the log file defined in the config');
 program.parse(process.argv);
 
 let argv;
@@ -52,11 +67,17 @@ if (program.testnet) {
   process.env.dusk_TestNetworkEnabled = '1';
 }
 
+console.log(description);
+
 let config = rc('dusk', options(program.datadir), argv);
 let privkey, identity, logger, controller, node, nonce, proof;
 
-
 // Initialize logging
+const prettyPrint = spawn(
+  path.join(__dirname, '../node_modules/bunyan/bin/bunyan'),
+  ['--color']
+);
+
 logger = bunyan.createLogger({
   name: 'dusk',
   streams: [
@@ -68,18 +89,21 @@ logger = bunyan.createLogger({
         gzip: false
       })
     },
-    { stream: process.stdout }
+    { stream: prettyPrint.stdin }
   ],
   level: parseInt(config.VerboseLoggingEnabled) ? 'debug' : 'info'
 });
 
-if (parseInt(config.TestNetworkEnabled)) {
-  logger.info('dusk is running in test mode, difficulties are reduced');
-  process.env.dusk_TestNetworkEnabled = config.TestNetworkEnabled;
-  dusk.constants.IDENTITY_DIFFICULTY = dusk.constants.TESTNET_DIFFICULTY;
-}
+prettyPrint.stdout.pipe(process.stdout);
+
 
 async function _init() {
+  if (parseInt(config.TestNetworkEnabled)) {
+    logger.info('dusk is running in test mode, difficulties are reduced');
+    process.env.dusk_TestNetworkEnabled = config.TestNetworkEnabled;
+    dusk.constants.IDENTITY_DIFFICULTY = dusk.constants.TESTNET_DIFFICULTY;
+  }
+
   // Generate a private extended key if it does not exist
   if (!fs.existsSync(config.PrivateKeyPath)) {
     fs.writeFileSync(config.PrivateKeyPath, dusk.utils.generatePrivateKey());
@@ -144,21 +168,27 @@ async function _init() {
   // If identity is not solved yet, start trying to solve it
   let identityHasValidProof = false;
 
+  logger.info(`proof difficulty param N=${dusk.constants.IDENTITY_DIFFICULTY.n}`);
+  logger.info(`proof difficulty param K=${dusk.constants.IDENTITY_DIFFICULTY.k}`);
+
   try {
     identityHasValidProof = await identity.validate();
   } catch (err) {
-    logger.error(err.message);
+    logger.warn(`identity validation failed, ${err.message}`);
   }
 
   if (!identityHasValidProof) {
-    logger.warn(`identity proof not yet solved, this can take a while`);
+    logger.info(`identity proof not yet solved, this can take a while`);
     await identity.solve();
     fs.writeFileSync(config.IdentityNoncePath, identity.nonce.toString());
     fs.writeFileSync(config.IdentityProofPath, identity.proof);
-    logger.info('identity solution found!');
+    logger.info('identity solution found');
   }
 
-  logger.info(`identity proof is ${identity.proof.toString('hex')} / ${identity.nonce}`);
+  logger.info(`pubkey ${identity.pubkey.toString('hex')}`);
+  logger.info(`proof: ${identity.proof.toString('hex')}`);
+  logger.info(`nonce: ${identity.nonce}`);
+  logger.info(`fingerprint ${identity.fingerprint.toString('hex')}`);
   init();
 }
 
@@ -216,7 +246,6 @@ async function init() {
     methods: ['PUBLISH', 'SUBSCRIBE'],
     difficulty: 8
   }));
-  node.quasar = node.plugin(dusk.quasar());
   node.spartacus = node.plugin(dusk.spartacus(privkey, {
     checkPublicKeyHash: false
   }));
@@ -291,11 +320,18 @@ async function init() {
   }
 
   node.listen(parseInt(config.NodeListenPort), () => {
-    logger.info(
-      `node listening on local port ${config.NodeListenPort} ` +
-      `and exposed at ${node.contact.protocol}//${node.contact.hostname}` +
-      `:${node.contact.port}`
+    logger.info('dusk node is running! your identity is:');
+    logger.info('');
+    logger.info('');
+    const identBundle = dusk.utils.getContactURL([node.identity, node.contact]); 
+    logger.info(identBundle);
+    logger.info('');
+    logger.info('');
+    fs.writeFileSync(
+      path.join(program.datadir, 'dusk.pub'),
+      identBundle
     );
+    
     registerControlInterface();
     async.retry({
       times: Infinity,
@@ -313,7 +349,7 @@ async function init() {
 }
 
 // Check if we are sending a command to a running daemon's controller
-if (program.rpc) {
+if (program.rpc || program.repl) {
   assert(!(parseInt(config.ControlPortEnabled) &&
            parseInt(config.ControlSockEnabled)),
     'ControlSock and ControlPort cannot both be enabled');
@@ -327,22 +363,66 @@ if (program.rpc) {
   }
 
   client.on('ready', () => {
-    const [method, ...params] = program.rpc.split(' ');
+    if (program.rpc === true || program.repl) {
+      return _initRepl();
+    }
+
+    const [method, ...params] = program.rpc.trim().split(' ');
+    console.log(`(dusk:rpc) <~ ${method}(${params.join(' , ')})`);
     client.invoke(method, params, function(err, ...results) {
       if (err) {
-        console.error(err);
+        console.error(`(dusk:rpc) ~> ${err.message}`);
         process.exit(1);
       } else {
-        console.info(results);
+        console.info('(dusk:rpc) ~>');
+        console.dir(results, { depth: null });
         process.exit(0);
       }
     });
+  });
+
+  client.socket.on('close', () => {
+    console.error('Connection terminated! :(');
+    process.exit(1);
   });
 
   client.on('error', err => {
     console.error(err);
     process.exit(1)
   });
+
+  function _initRepl() {
+    const rl = readline.createInterface({
+      input: process.stdin,
+      output: process.stdout,
+      prompt: '(dusk:repl) ~ ',
+    });
+
+    rl.prompt();
+
+    rl.on('line', (line) => {
+      if (!line) {
+        return rl.prompt();
+      }
+
+      const [method, ...params] = line.trim().split(' ');
+      client.invoke(method, params, function(err, ...results) {
+        if (err) {
+          console.error(err.message);
+        } else {
+          console.dir(results, { depth: null });
+        }
+      
+        rl.prompt();
+      });
+    }).on('close', () => {
+      console.log('bye ♥ ');
+      process.exit(0);
+    });
+  }
+} else if (program.logs) {
+  const tail = spawn('tail', ['-f', config.LogFilePath]);
+  tail.stdout.pipe(prettyPrint.stdin).pipe(process.stdout);
 } else {
   // Otherwise, kick everything off
   _init();

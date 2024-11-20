@@ -2,14 +2,14 @@
 
 const { expect } = require('chai');
 const network = require('./fixtures/node-generator');
-const kadence = require('..');
+const dusk = require('..');
 const contentaddress = require('../lib/plugin-contentaddress');
 const { createHash } = require('crypto');
 
 
-describe('@module kadence/contentaddress + @class UDPTransport', function() {
+describe('@module dusk/contentaddress + @class HTTPTransport', function() {
 
-  let [node1, node2] = network(2, kadence.UDPTransport);
+  let [node1, node2] = network(2, dusk.HTTPTransport);
   let data = Buffer.from('data');
   let key = createHash('rmd160').update(data).digest('hex');
 
