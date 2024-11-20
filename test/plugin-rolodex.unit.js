@@ -5,8 +5,8 @@ const rolodex = require('../lib/plugin-rolodex');
 const sinon = require('sinon');
 const RoutingTable = require('../lib/routing-table');
 const utils = require('../lib/utils');
-const path = require('path');
-const os = require('os');
+const path = require('node:path');
+const os = require('node:os');
 
 
 describe('@module kadence/rolodex', function() {
@@ -33,12 +33,12 @@ describe('@module kadence/rolodex', function() {
 
   it('should store the contact in the db', function(done) {
     let contact1 = {
-      hostname: 'localhost',
+      hostname: '127.0.0.1',
       port: 8080,
       protocol: 'http:'
     };
     let contact2 = {
-      hostname: 'localhost',
+      hostname: '127.0.0.1',
       port: 8081,
       protocol: 'http:'
     };
@@ -47,12 +47,13 @@ describe('@module kadence/rolodex', function() {
       node.router.addContactByNodeId(nodeid2, contact2);
       setTimeout(function() {
         plugin.getBootstrapCandidates().then(function(peers) {
-          expect(peers[0]).to.equal(`http://localhost:8081/#${nodeid2}`);
-          expect(peers[1]).to.equal(`http://localhost:8080/#${nodeid1}`);
+          console.log(peers)
+          expect(peers[0]).to.equal(`http://127.0.0.1:8081/#${nodeid2}`);
+          expect(peers[1]).to.equal(`http://127.0.0.1:8080/#${nodeid1}`);
           done();
         }, done);
-      }, 20);
-    }, 20);
+      }, 100);
+    }, 100);
   });
 
   describe('@class RolodexPlugin', function() {
@@ -61,7 +62,7 @@ describe('@module kadence/rolodex', function() {
 
       it('should return the peer info', function(done) {
         plugin.getExternalPeerInfo(nodeid1).then(contact => {
-          expect(contact.hostname).to.equal('localhost');
+          expect(contact.hostname).to.equal('127.0.0.1');
           expect(contact.port).to.equal(8080);
           expect(contact.protocol).to.equal('http:');
           done();

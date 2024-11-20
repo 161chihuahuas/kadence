@@ -6,6 +6,7 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - kadence_TestNetworkEnabled=1
+      - kadence_VerboseLoggingEnabled=1
       - kadence_ControlSockEnabled=0
       - kadence_ControlPortEnabled=1
       - kadence_TraverseNatEnabled=0
@@ -24,6 +25,7 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - kadence_TestNetworkEnabled=1
+      - kadence_VerboseLoggingEnabled=1
       - kadence_TraverseNatEnabled=0
       - kadence_NodePublicAddress=kadence-2
       - kadence_NetworkBootstrapNodes=http://kadence-1:5274
@@ -38,6 +40,7 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - kadence_TestNetworkEnabled=1
+      - kadence_VerboseLoggingEnabled=1
       - kadence_TraverseNatEnabled=0
       - kadence_NodePublicAddress=kadence-3
       - kadence_NetworkBootstrapNodes=http://kadence-1:5274
@@ -52,6 +55,7 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - kadence_TestNetworkEnabled=1
+      - kadence_VerboseLoggingEnabled=1
       - kadence_TraverseNatEnabled=0
       - kadence_NodePublicAddress=kadence-4
       - kadence_NetworkBootstrapNodes=http://kadence-1:5274
@@ -66,6 +70,7 @@ services:
       dockerfile: ./Dockerfile.dev
     environment:
       - kadence_TestNetworkEnabled=1
+      - kadence_VerboseLoggingEnabled=1
       - kadence_TraverseNatEnabled=0
       - kadence_NodePublicAddress=kadence-5
       - kadence_NetworkBootstrapNodes=http://kadence-1:5274

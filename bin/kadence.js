@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-':' //; exec "$(command -v nodejs || command -v node)" "$0" "$@"
+':' //; exec "$(command -v node || command -v nodejs)" "$0" "$@"
 
 'use strict';
 
@@ -196,8 +196,10 @@ async function _init() {
     await identity.solve();
     fs.writeFileSync(config.IdentityNoncePath, identity.nonce.toString());
     fs.writeFileSync(config.IdentityProofPath, identity.proof);
+    logger.info('identity solution found!');
   }
 
+  logger.info(`identity proof is ${identity.proof.toString('hex')} / ${identity.nonce}`);
   init();
 }
 
@@ -272,7 +274,7 @@ async function init() {
   node.content = node.plugin(kadence.contentaddress({
     valueEncoding: 'hex'
   }));
-  // node.eclipse = node.plugin(kadence.eclipse(identity)); // NB: Equihash is busted
+  node.eclipse = node.plugin(kadence.eclipse(identity)); // NB: Equihash is busted
   node.rolodex = node.plugin(kadence.rolodex(config.EmbeddedPeerCachePath));
 
   // Check if we need to enable the churn filter plugin (experimental)
