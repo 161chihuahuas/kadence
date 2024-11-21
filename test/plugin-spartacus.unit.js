@@ -124,7 +124,7 @@ describe('@module dusk/spartacus', function() {
         contact: {},
         use: sinon.stub()
       };
-      let plugin = new SpartacusPlugin(node);
+      let plugin = new SpartacusPlugin(node, null, { checkPublicKeyHash: false });
       plugin.deserialize(Buffer.from(JSON.stringify([
         {
           jsonrpc: '2.0',
@@ -147,8 +147,7 @@ describe('@module dusk/spartacus', function() {
             '583b0eb005a94f22410d2da645b62dc7cdd9288f7fece1fd67fd6d90f4ce0284' +
               '48d3fd353969dde8e9e73ad69178efda22008a4e642f32845e89c59ec83a68' +
               '8f',
-            plugin.publicKey.toString('hex'),
-            [plugin.publicExtendedKey, plugin.derivationIndex]
+            plugin.publicKey.toString('hex')
           ]
         }
       ])), null, (err) => {

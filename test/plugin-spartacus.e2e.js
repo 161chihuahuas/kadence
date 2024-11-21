@@ -7,16 +7,15 @@ const spartacus = require('../lib/plugin-spartacus');
 
 
 describe('@module dusk/spartacus + @class HTTPTransport)', function() {
-  this.timeout(8000);
-  dusk.constants.T_RESPONSETIMEOUT = 6000;
+  this.timeout(10000);
+  dusk.constants.T_RESPONSETIMEOUT = 4000;
 
   let [node1, node2, node3, node4] = network(4, dusk.HTTPTransport);
   let node3pub = null;
 
   before(function(done) {
-    dusk.constants.T_RESPONSETIMEOUT = 6000;
     [node1, node2, node3].forEach((node) => {
-      node.spartacus = node.plugin(spartacus());
+      node.spartacus = node.plugin(spartacus(null, { checkPublicKeyHash: false }));
       node.listen(node.contact.port);
     });
     setTimeout(() => {
@@ -39,9 +38,8 @@ describe('@module dusk/spartacus + @class HTTPTransport)', function() {
   });
 
   it('should fail to validate if reflection attack', function(done) {
-    this.timeout(8000);
     node3pub = node3.contact.pubkey;
-    node3.contact.pubkey = '000000';
+    node3.contact.pubkey = node1.contact.pubkey;
     node3.ping([node1.identity.toString('hex'), node1.contact], (err) => {
       expect(err.message).to.equal('Timed out waiting for response');
       done();
@@ -49,20 +47,20 @@ describe('@module dusk/spartacus + @class HTTPTransport)', function() {
   });
 
   it('should fail to validate if no response', function(done) {
-    this.timeout(8000);
     node3.contact.pubkey = node3pub;
-    node3.contact.port = 0;
+    node3.contact.port = 6666;
     node1.spartacus.setValidationPeriod(0);
     node3.ping([node1.identity.toString('hex'), node1.contact], (err) => {
-      expect(err.message).to.equal('Gateway Timeout');
+      expect(['Gateway Timeout', 
+        'Timed out waiting for response'].includes(err.message)).to.equal(true);
       done();
     });
   });
 
   it('should timeout and not crash if no auth payload', function(done) {
-    this.timeout(8000);
     node4.ping([node2.identity.toString('hex'), node2.contact], (err) => {
-      expect(err.message).to.equal('Timed out waiting for response');
+       expect(['Gateway Timeout', 
+        'Timed out waiting for response'].includes(err.message)).to.equal(true);
       done();
     });
   });

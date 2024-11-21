@@ -18,17 +18,17 @@ module.exports = function(datadir) {
     DaemonPidFilePath: join(datadir, 'dusk.pid'),
 
     // Identity/Cryptography
-    PrivateKeyPath: join(datadir, 'dusk.secret'),
+    PrivateKeyPath: join(datadir, 'dusk.xpriv'),
     IdentityNoncePath: join(datadir, 'nonce'),
     IdentityProofPath: join(datadir, 'proof'),
 
     // Database
-    EmbeddedDatabaseDirectory: join(datadir, 'dusk.dht'),
+    EmbeddedDatabaseDirectory: join(datadir, 'dusk.dat'),
 
     // Node Options
     NodeListenPort: '5274',
     OnionVirtualPort: '80',
-    OnionHiddenServiceDirectory: join(datadir, 'tor.conf'),
+    OnionHiddenServiceDirectory: join(datadir, 'tor'),
     OnionLoggingVerbosity: 'notice',
     OnionLoggingEnabled: '0',
 
@@ -46,7 +46,7 @@ module.exports = function(datadir) {
     ControlPortEnabled: '0',
     ControlPort: '5275',
     ControlSockEnabled: '1',
-    ControlSock: join(datadir, 'dusk.sock'),
+    ControlSock: join(datadir, 'control.sock'),
 
     // Enables the Test Mode (lowers difficulty)
     TestNetworkEnabled: '0'
@@ -58,8 +58,8 @@ module.exports = function(datadir) {
     writeFileSync(join(datadir, 'config'), ini.stringify(options));
   }
 
-  if (!existsSync(join(datadir, 'dusk.dht'))) {
-    mkdirp.sync(join(datadir, 'dusk.dht'));
+  if (!existsSync(join(datadir, 'dusk.dat'))) {
+    mkdirp.sync(join(datadir, 'dusk.dat'));
   }
 
   return options;

@@ -20,6 +20,7 @@ module.exports = function(numNodes, Transport) {
   const storage = levelup(encoding(memdown()));
 
   function createNode() {
+    let spar
     let transport = new Transport();
     let contact = { hostname: '127.0.0.1', port: startPort-- };
 

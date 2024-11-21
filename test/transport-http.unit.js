@@ -69,11 +69,11 @@ describe('@class HTTPTransport', function() {
       let httpTransport = new HTTPTransport();
       let end = sinon.stub();
       httpTransport._pending.set('1', {
-        timestamp: Date.now() - constants.T_RESPONSETIMEOUT,
+        timestamp: Date.now() - constants.T_RESPONSETIMEOUT - HTTPTransport.T_TIMEOUTBUFFER,
         response: { end }
       });
       httpTransport._pending.set('2', {
-        timestamp: Date.now() - constants.T_RESPONSETIMEOUT,
+        timestamp: Date.now() - constants.T_RESPONSETIMEOUT - HTTPTransport.T_TIMEOUTBUFFER,
         response: { end }
       });
       httpTransport._pending.set('3', {

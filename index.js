@@ -40,6 +40,9 @@ module.exports.hashcash = require('./lib/plugin-hashcash');
 /** {@link module:dusk/onion} */
 module.exports.onion = require('./lib/plugin-onion');
 
+/** {@link module:dusk/quasar} */
+module.exports.quasar = require('./lib/plugin-quasar');
+
 /** {@link module:dusk/spartacus} */
 module.exports.spartacus = require('./lib/plugin-spartacus');
 

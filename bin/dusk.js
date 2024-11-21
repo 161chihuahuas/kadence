@@ -16,7 +16,6 @@ const path = require('node:path');
 const options = require('./config');
 const npid = require('npid');
 const daemon = require('daemon');
-const pem = require('pem');
 const levelup = require('levelup');
 const leveldown = require('leveldown');
 const boscar = require('boscar');
@@ -44,16 +43,18 @@ const description = `
 `;
 
 program.description(description);
-program.option('--config <file>', 'path to a dusk configuration file',
+program.option('--config, -c <file>', 'path to a dusk configuration file',
   path.join(homedir(), '.config/dusk/dusk.ini'));
 program.option('--datadir <path>', 'path to the default data directory',
   path.join(homedir(), '.config/dusk'));
-program.option('--shutdown', 'sends the shutdown signal to the daemon');
+program.option('--kill', 'sends the shutdown signal to the daemon');
 program.option('--testnet', 'runs with reduced identity difficulty');
-program.option('--daemon', 'sends the dusk daemon to the background');
+program.option('--daemon, -d', 'sends the dusk daemon to the background');
 program.option('--rpc [method] [params]', 'send a command to the daemon');
 program.option('--repl', 'starts the interactive rpc console');
-program.option('--logs', 'tails the log file defined in the config');
+program.option('--logs, -f', 'tails the log file defined in the config');
+program.option('--export, -x', 'dumps the public identity bundle as dusk:uri')
+program.option('--export-secret', 'dumps the extended private identity key')
 program.parse(process.argv);
 
 let argv;
@@ -241,26 +242,33 @@ async function init() {
     contact,
     storage: levelup(encoding(leveldown(config.EmbeddedDatabaseDirectory)))
   });
-
+  
+  // Extend S/Kademlia with Quasar pub/sub
+  node.plugin(dusk.quasar());
+  // Require pub/sub rpcs to contain a hashcash stamp to mitigate DoS
   node.hashcash = node.plugin(dusk.hashcash({
     methods: ['PUBLISH', 'SUBSCRIBE'],
     difficulty: 8
   }));
+  // Sign and verify messages
   node.spartacus = node.plugin(dusk.spartacus(privkey, {
     checkPublicKeyHash: false
   }));
+  // DHT is content addressable only - no arbitrary k/v pairs
   node.content = node.plugin(dusk.contentaddress({
     valueEncoding: 'hex'
   }));
+  // Mitigage exclipse attacks by requiring equihash proofs
   node.eclipse = node.plugin(dusk.eclipse(identity));
 
-  // Use Tor for an anonymous overlay
+  // Route all traffic through Tor and establish an onion service
   dusk.constants.T_RESPONSETIMEOUT = 20000;
   node.onion = node.plugin(dusk.onion({
     dataDirectory: config.OnionHiddenServiceDirectory,
     virtualPort: config.OnionVirtualPort,
     localMapping: `127.0.0.1:${config.NodeListenPort}`,
     torrcEntries: {
+      // dusk-specific Tor configuration
       CircuitBuildTimeout: 10,
       KeepalivePeriod: 60,
       NewCircuitPeriod: 60,
@@ -364,7 +372,10 @@ if (program.rpc || program.repl) {
 
   client.on('ready', () => {
     if (program.rpc === true || program.repl) {
-      return _initRepl();
+      if (program.rpc) {
+        logger.warn('no command provided to --rpc, starting repl');
+      }
+      return setTimeout(() => _initRepl(), 100);
     }
 
     const [method, ...params] = program.rpc.trim().split(' ');
