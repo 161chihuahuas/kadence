@@ -245,11 +245,6 @@ async function init() {
   
   // Extend S/Kademlia with Quasar pub/sub
   node.plugin(dusk.quasar());
-  // Require pub/sub rpcs to contain a hashcash stamp to mitigate DoS
-  node.hashcash = node.plugin(dusk.hashcash({
-    methods: ['PUBLISH', 'SUBSCRIBE'],
-    difficulty: 8
-  }));
   // Sign and verify messages
   node.spartacus = node.plugin(dusk.spartacus(privkey, {
     checkPublicKeyHash: false
@@ -307,6 +302,7 @@ async function init() {
             node.router.getContactByNodeId(identity)
           ])
         ];
+        logger.info(config.NetworkBootstrapNodes)
         joinNetwork(callback)
       });
     }
@@ -314,11 +310,13 @@ async function init() {
     logger.info(`joining network from ${peers.length} seeds`);
     async.detectSeries(peers, (url, done) => {
       const contact = dusk.utils.parseContactURL(url);
+      logger.info('contacting', contact);
       node.join(contact, (err) => {
         done(null, (err ? false : true) && node.router.size > 1);
       });
     }, (err, result) => {
       if (!result) {
+        logger.error(err);
         logger.error('failed to join network, will retry in 1 minute');
         callback(new Error('Failed to join network'));
       } else {

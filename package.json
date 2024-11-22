@@ -9,9 +9,7 @@
   "bugs": {
     "url": "https://github.com/tacticalchihuahua/dusk/issues"
   },
-  "contributors": [
-    
-  ],
+  "contributors": [],
   "dependencies": {
     "@tacticalchihuahua/equihash": "^1.0.0",
     "@tacticalchihuahua/granax": "^3.3.0",
@@ -40,7 +38,8 @@
     "rc": "^1.2.8",
     "secp256k1": "^5.0.1",
     "semver": "^5.1.0",
-    "socks": "^1.1.10",
+    "socks": "^2.8.3",
+    "socks-proxy-agent": "^8.0.4",
     "split": "^1.0.1",
     "uuid": "^3.2.1"
   },
@@ -49,9 +48,9 @@
     "chai": "^2.2.0",
     "clean-jsdoc-theme": "^4.3.0",
     "eslint": "^5.14.1",
-    "jsdoc": "^3.6.3",
+    "jsdoc": "^4.0.4",
     "memdown": "^2.0.0",
-    "mocha": "^5.2.0",
+    "mocha": "^10.8.2",
     "proxyquire": "^1.8.0",
     "rimraf": "^2.6.1",
     "sinon": "^2.4.1"

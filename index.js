@@ -34,9 +34,6 @@ module.exports.RoutingTable = require('./lib/routing-table');
 /** {@link HTTPTransport} */
 module.exports.HTTPTransport = require('./lib/transport-http');
 
-/** {@link module:dusk/hashcash} */
-module.exports.hashcash = require('./lib/plugin-hashcash');
-
 /** {@link module:dusk/onion} */
 module.exports.onion = require('./lib/plugin-onion');
 
