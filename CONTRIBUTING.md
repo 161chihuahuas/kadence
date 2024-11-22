@@ -14,7 +14,7 @@ Dusk adheres to
 Test Coverage
 -------------
 
-At the time of writing, Kad has near complete code coverage through
+At the time of writing, Dusk has near complete code coverage through
 its test suite. It is important to never decrease coverage, so be sure to
 include tests for any new code.
 

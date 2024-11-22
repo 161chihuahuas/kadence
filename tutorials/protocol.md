@@ -90,7 +90,7 @@ The Dusk network operates over HTTP and exclusively over
 
 Each Dusk node exposes a V3 hidden service to other nodes for receiving RPC 
 messages _(4. Remote Procedure Calls)_. Requests sent to the RPC endpoint 
-require a special HTTP header `x-kad-message-id` to be included that matches 
+require a special HTTP header `x-dusk-message-id` to be included that matches 
 the `id` parameter in the associated RPC message _(4.1 Structure and Authentication)_.
 
 ### 4    Remote Procedure Calls
@@ -98,7 +98,7 @@ the `id` parameter in the associated RPC message _(4.1 Structure and Authenticat
 * **Method:** `POST`
 * **Path:** `/`
 * **Content Type:** `application/json`
-* **Headers:** `x-kad-message-id`
+* **Headers:** `x-dusk-message-id`
 
 #### 4.1    Structure and Authentication
 

@@ -54,7 +54,7 @@ node.use((request, response, next) => {
   next();
 });
 
-// Use existing "base" rules to add additional logic to the base kad routes
+// Use existing "base" rules to add additional logic to the base dusk routes
 // This is useful for things like validating key/value pairs
 node.use('STORE', (request, response, next) => {
   let [key, entry] = request.params;

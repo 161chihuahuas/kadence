@@ -5,12 +5,12 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     environment:
-      - kadence_TestNetworkEnabled=1
-      - kadence_VerboseLoggingEnabled=1
-      - kadence_ControlSockEnabled=0
-      - kadence_ControlPortEnabled=1
-      - kadence_TraverseNatEnabled=0
-      - kadence_NodePublicAddress=dusk-1
+      - dusk_TestNetworkEnabled=1
+      - dusk_VerboseLoggingEnabled=1
+      - dusk_ControlSockEnabled=0
+      - dusk_ControlPortEnabled=1
+      - dusk_TraverseNatEnabled=0
+      - dusk_NodePublicAddress=dusk-1
     volumes:
       - ./bin:/root/dusk/bin
       - ./lib:/root/dusk/lib
@@ -24,11 +24,11 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     environment:
-      - kadence_TestNetworkEnabled=1
-      - kadence_VerboseLoggingEnabled=1
-      - kadence_TraverseNatEnabled=0
-      - kadence_NodePublicAddress=dusk-2
-      - kadence_NetworkBootstrapNodes=http://dusk-1:5274
+      - dusk_TestNetworkEnabled=1
+      - dusk_VerboseLoggingEnabled=1
+      - dusk_TraverseNatEnabled=0
+      - dusk_NodePublicAddress=dusk-2
+      - dusk_NetworkBootstrapNodes=http://dusk-1:5274
     volumes:
       - ./bin:/root/dusk/bin
       - ./lib:/root/dusk/lib
@@ -39,11 +39,11 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     environment:
-      - kadence_TestNetworkEnabled=1
-      - kadence_VerboseLoggingEnabled=1
-      - kadence_TraverseNatEnabled=0
-      - kadence_NodePublicAddress=dusk-3
-      - kadence_NetworkBootstrapNodes=http://dusk-1:5274
+      - dusk_TestNetworkEnabled=1
+      - dusk_VerboseLoggingEnabled=1
+      - dusk_TraverseNatEnabled=0
+      - dusk_NodePublicAddress=dusk-3
+      - dusk_NetworkBootstrapNodes=http://dusk-1:5274
     volumes:
       - ./bin:/root/dusk/bin
       - ./lib:/root/dusk/lib
@@ -54,11 +54,11 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     environment:
-      - kadence_TestNetworkEnabled=1
-      - kadence_VerboseLoggingEnabled=1
-      - kadence_TraverseNatEnabled=0
-      - kadence_NodePublicAddress=dusk-4
-      - kadence_NetworkBootstrapNodes=http://dusk-1:5274
+      - dusk_TestNetworkEnabled=1
+      - dusk_VerboseLoggingEnabled=1
+      - dusk_TraverseNatEnabled=0
+      - dusk_NodePublicAddress=dusk-4
+      - dusk_NetworkBootstrapNodes=http://dusk-1:5274
     volumes:
       - ./bin:/root/dusk/bin
       - ./lib:/root/dusk/lib
@@ -69,11 +69,11 @@ services:
       context: .
       dockerfile: ./Dockerfile.dev
     environment:
-      - kadence_TestNetworkEnabled=1
-      - kadence_VerboseLoggingEnabled=1
-      - kadence_TraverseNatEnabled=0
-      - kadence_NodePublicAddress=dusk-5
-      - kadence_NetworkBootstrapNodes=http://dusk-1:5274
+      - dusk_TestNetworkEnabled=1
+      - dusk_VerboseLoggingEnabled=1
+      - dusk_TraverseNatEnabled=0
+      - dusk_NodePublicAddress=dusk-5
+      - dusk_NetworkBootstrapNodes=http://dusk-1:5274
     volumes:
       - ./bin:/root/dusk/bin
       - ./lib:/root/dusk/lib

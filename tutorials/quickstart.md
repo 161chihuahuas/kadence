@@ -162,18 +162,18 @@ The first time you run `dusk`, it will automatically begin "mining" a valid
 identity, which can take some time depending on your hardware. If you are just 
 getting started with testing Dusk, you'll probably want to set 
 `TestNetworkEnabled=1` in your `$HOME/.config/dusk/config` or set the 
-environment variable `kadence_TestNetworkEnabled=1` (see {@tutorial config}). 
+environment variable `dusk_TestNetworkEnabled=1` (see {@tutorial config}). 
 This will reduce the difficulty significantly and allow you to get started 
 quickly. In a live "production" network, you can pass `--solvers N` where `N` 
 is the number of CPU cores you'd like to dedicate to identity mining (and 
 solution mining as discussed later).
 
-In the example below, we are also setting `kadence_TraverseNatEnabled=0` 
+In the example below, we are also setting `dusk_TraverseNatEnabled=0` 
 because for now we aren't interested in punching out and becoming addessable 
 on the internet.
 
 ```
-$ export kadence_TestNetworkEnabled=1 kadence_TraverseNatEnabled=0
+$ export dusk_TestNetworkEnabled=1 dusk_TraverseNatEnabled=0
 
 $ dusk
 {"name":"dusk","hostname":"librem","pid":23409,"level":30,"msg":"dusk is running in test mode, difficulties are reduced","time":"2018-03-16T15:28:05.188Z","v":0}
@@ -237,7 +237,7 @@ can open a socket connection. For this example we'll use `telnet` and use the
 TCP socket interface. 
 
 ```
-$ export kadence_ControlPortEnabled=1 kadence_ControlSockEnabled=0
+$ export dusk_ControlPortEnabled=1 dusk_ControlSockEnabled=0
 
 $ dusk --solvers 0
 {"name":"dusk","hostname":"librem","pid":24893,"level":30,"msg":"dusk is running in test mode, difficulties are reduced","time":"2018-03-16T16:43:04.440Z","v":0}

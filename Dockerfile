@@ -14,8 +14,8 @@ RUN git clone https://github.com/lilyannehall/dusk /root/dusk; \
 VOLUME ["/root/.config/dusk"]
 EXPOSE 5274
 EXPOSE 5275
-ENV kadence_NodeListenAddress="0.0.0.0"
-ENV kadence_ControlSockEnabled="0"
-ENV kadence_ControlPortEnabled="1"
+ENV dusk_NodeListenAddress="0.0.0.0"
+ENV dusk_ControlSockEnabled="0"
+ENV dusk_ControlPortEnabled="1"
 ENTRYPOINT ["/root/dusk/bin/dusk.js"]
 CMD []
