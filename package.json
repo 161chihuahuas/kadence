@@ -10,25 +10,9 @@
     "url": "https://github.com/tacticalchihuahua/dusk/issues"
   },
   "contributors": [
-    {
-      "name": "omphalos",
-      "url": "https://github.com/omphalos"
-    },
-    {
-      "name": "Alexander Leitner",
-      "url": "https://github.com/aleitner"
-    },
-    {
-      "name": "Trey Griffith",
-      "url": "https://github.com/treygriffith"
-    },
-    {
-      "name": "Janko Simonovic",
-      "url": "https://gitlab.com/simonovic86"
-    }
+    
   ],
   "dependencies": {
-    "@tacticalchihuahua/diglet": "^4.0.0",
     "@tacticalchihuahua/equihash": "^1.0.0",
     "@tacticalchihuahua/granax": "^3.3.0",
     "async": "^2.6.0",
@@ -36,7 +20,6 @@
     "boscar": "^2.0.0",
     "bunyan": "^1.8.12",
     "bunyan-rotating-file-stream": "^1.6.3",
-    "bytes": "^3.0.0",
     "commander": "^2.9.0",
     "concat-stream": "^1.6.0",
     "daemon": "^1.1.0",
@@ -52,12 +35,8 @@
     "metapipe": "^2.0.2",
     "mkdirp": "^0.5.1",
     "ms": "^2.1.1",
-    "nat-upnp": "^1.1.1",
-    "network": "^0.4.1",
-    "node-gyp": "^10.2.0",
     "npid": "^0.4.0",
     "onion-regex": "^2.0.8",
-    "pem": "^1.13.2",
     "rc": "^1.2.8",
     "secp256k1": "^5.0.1",
     "semver": "^5.1.0",
@@ -69,7 +48,6 @@
   "devDependencies": {
     "chai": "^2.2.0",
     "clean-jsdoc-theme": "^4.3.0",
-    "coveralls": "^3.0.1",
     "eslint": "^5.14.1",
     "jsdoc": "^3.6.3",
     "memdown": "^2.0.0",

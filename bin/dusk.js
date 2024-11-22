@@ -38,7 +38,7 @@ const description = `
 
                     ~ Ⓐ ~
                                            
-     copyleft N©! 2024 tactical chihuahua 
+         N©! 2024 tactical chihuahua 
          licensed under the AGPL-3.0
 `;
 
@@ -403,6 +403,9 @@ if (program.rpc || program.repl) {
   });
 
   function _initRepl() {
+    console.log('hi ♥');
+    console.log('?? try: help\n');
+
     const rl = readline.createInterface({
       input: process.stdin,
       output: process.stdout,
@@ -414,6 +417,11 @@ if (program.rpc || program.repl) {
     rl.on('line', (line) => {
       if (!line) {
         return rl.prompt();
+      }
+
+      if (line === 'quit' || line === 'exit') {
+        console.log('bye ♥ ');
+        process.exit(0);
       }
 
       const [method, ...params] = line.trim().split(' ');
