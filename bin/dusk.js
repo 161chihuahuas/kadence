@@ -161,7 +161,7 @@ async function _init() {
   // Initialize private extended key
   privkey = fs.readFileSync(config.PrivateKeyPath);
   identity = new dusk.eclipse.EclipseIdentity(
-    secp256k1.publicKeyCreate(privkey),
+    Buffer.from(secp256k1.publicKeyCreate(privkey)),
     nonce,
     proof
   );

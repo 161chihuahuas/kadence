@@ -14,14 +14,12 @@ module.exports = function(numNodes, Transport) {
   const nodes = [];
 
   const logger = bunyan.createLogger({
-    levels: ['fatal'],
     name: 'node-kademlia'
   });
   const storage = levelup(encoding(memdown()));
 
   function createNode() {
-    let spar
-    let transport = new Transport();
+    let transport = new Transport({ allowLoopbackAddresses: true });
     let contact = { hostname: '127.0.0.1', port: startPort-- };
 
     return new dusk.KademliaNode({

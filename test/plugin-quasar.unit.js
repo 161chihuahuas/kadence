@@ -5,12 +5,12 @@ const sinon = require('sinon');
 const proxyquire = require('proxyquire');
 const utils = require('../lib/utils');
 const RoutingTable = require('../lib/routing-table');
-const kadence = require('..');
+const dusk = require('..');
 const constants = require('../lib/constants');
 const BloomFilter = require('atbf');
 
 
-describe('@module kadence/quasar', function() {
+describe('@module dusk/quasar', function() {
   const contact = {
     hostname: 'example.onion',
     port: 80,
@@ -38,7 +38,7 @@ describe('@module kadence/quasar', function() {
     error: sinon.stub()
   };
   const identity = Buffer.from('d51f652b6e6acdd722b47ee04116ab34a439b148', 'hex');
-  const router = new kadence.RoutingTable(identity);
+  const router = new dusk.RoutingTable(identity);
   const use = sinon.stub();
 
   describe('@class QuasarPlugin', function() {
@@ -46,7 +46,7 @@ describe('@module kadence/quasar', function() {
       let numContacts = 32;
 
       while (numContacts > 0) {
-        router.addContactByNodeId(kadence.utils.getRandomKeyString(), {
+        router.addContactByNodeId(dusk.utils.getRandomKeyString(), {
           hostname: 'localhost',
           port: 8080
         });
@@ -76,7 +76,7 @@ describe('@module kadence/quasar', function() {
 
       it('should return ALPHA contact objects', function() {
         let plugin = new QuasarPlugin({ identity, router, use });
-        expect(plugin.neighbors).to.have.lengthOf(kadence.constants.ALPHA);
+        expect(plugin.neighbors).to.have.lengthOf(dusk.constants.ALPHA);
       });
 
     });
@@ -115,7 +115,7 @@ describe('@module kadence/quasar', function() {
           router,
           'getClosestContactsToKey'
         );
-        let routingKey = kadence.utils.getRandomKeyString();
+        let routingKey = dusk.utils.getRandomKeyString();
         plugin.node.send = sinon.stub().callsArg(3);
         plugin.quasarPublish(Buffer.from('000000', 'hex'), { routingKey }, () => {
           expect(getClosestContactsToKey.calledWithMatch(
@@ -165,10 +165,10 @@ describe('@module kadence/quasar', function() {
 
       it('should callback early if updated within an hour', function(done) {
         let plugin = new QuasarPlugin({ identity, router, use });
-        let pullFilterFrom = sinon.stub(plugin, 'pullFilterFrom').callsArg(1);
-        plugin._lastUpdate = Date.now();
+        plugin.pullFilterFrom = sinon.stub().callsArg(1);
+        plugin._lastPullUpdate = Date.now();
         plugin.pullFilters(() => {
-          expect(pullFilterFrom.callCount).to.equal(0);
+          expect(plugin.pullFilterFrom.callCount).to.equal(0);
           done();
         });
       });
@@ -260,19 +260,19 @@ describe('@module kadence/quasar', function() {
 
       it('should push filters to each neighbor', function(done) {
         let plugin = new QuasarPlugin({ identity, router, use });
-        let pushFilterTo = sinon.stub(plugin, 'pushFilterTo').callsArg(1);
+        plugin.pushFilterTo = sinon.stub().callsArg(1);
         plugin.pushFilters(() => {
-          expect(pushFilterTo.callCount).to.equal(3);
+          expect(plugin.pushFilterTo.callCount).to.equal(3);
           done();
         });
       });
 
       it('should callback early if we updated within an hour', function(done) {
         let plugin = new QuasarPlugin({ identity, router, use });
-        plugin._lastUpdate = Date.now();
-        let pushFilterTo = sinon.stub(plugin, 'pushFilterTo').callsArg(1);
+        plugin._lastPushUpdate = Date.now();
+        plugin.pushFilterTo = sinon.stub().callsArg(1);
         plugin.pushFilters(() => {
-          expect(pushFilterTo.callCount).to.equal(0);
+          expect(plugin.pushFilterTo.callCount).to.equal(0);
           done();
         });
       });
@@ -359,7 +359,8 @@ describe('@module kadence/quasar', function() {
         let rules = new QuasarRules({
           node: {
             router,
-            identity
+            identity,
+            logger
           },
           cached: { get: sinon.stub().returns(true) }
         });
@@ -372,7 +373,7 @@ describe('@module kadence/quasar', function() {
             contents: '000000'
           }
         }, { send }, (err) => {
-          expect(err.message).to.equal('Message previously routed');
+          expect(err).to.equal(null);
           expect(send.called).to.equal(false);
           done();
         });
@@ -382,7 +383,8 @@ describe('@module kadence/quasar', function() {
         let rules = new QuasarRules({
           node: {
             router,
-            identity
+            identity,
+            logger
           },
           cached: { get: sinon.stub().returns(false) }
         });
@@ -395,7 +397,7 @@ describe('@module kadence/quasar', function() {
             contents: '000000'
           }
         }, { send }, (err) => {
-          expect(err.message).to.equal('Message includes invalid TTL');
+          expect(err).to.equal(null);
           expect(send.called).to.equal(false);
           done();
         });
@@ -405,7 +407,8 @@ describe('@module kadence/quasar', function() {
         let rules = new QuasarRules({
           node: {
             router,
-            identity
+            identity,
+            logger
           },
           cached: { get: sinon.stub().returns(false) }
         });
@@ -418,7 +421,7 @@ describe('@module kadence/quasar', function() {
             contents: '000000'
           }
         }, { send }, (err) => {
-          expect(err.message).to.equal('Message includes invalid TTL');
+          expect(err).to.equal(null);
           expect(send.called).to.equal(false);
           done();
         });
@@ -428,7 +431,7 @@ describe('@module kadence/quasar', function() {
         let cachedSet = sinon.stub();
         let handler = sinon.stub();
         let use = sinon.stub();
-        let plugin = new QuasarPlugin({ identity, router, use, contact, spartacus });
+        let plugin = new QuasarPlugin({ identity, router, use, contact, spartacus, logger });
         let rules = new QuasarRules(plugin);
         plugin.groups.get = sinon.stub().returns(handler);
         plugin.isSubscribedTo = sinon.stub().returns(true),
@@ -545,7 +548,7 @@ describe('@module kadence/quasar', function() {
         filter[0].add('beep');
         filter[1].add('boop');
         filter[2].add('buup');
-        let rules = new QuasarRules({ filter });
+        let rules = new QuasarRules({ filter, node: { logger } });
         rules.subscribe({}, {
           send: (params) => {
             expect(params).to.have.lengthOf(3);
@@ -564,7 +567,7 @@ describe('@module kadence/quasar', function() {
 
       it('should merge remote filter with the local filter', function(done) {
         let local = new BloomFilter({ bitfieldSize: 160, filterDepth: 3 });
-        let rules = new QuasarRules({ filter: local });
+        let rules = new QuasarRules({ filter: local, node: { logger } });
         let send = sinon.stub();
         rules.update({ params: { bad: 'data' } }, { send }, function(err) {
           expect(err.message).to.equal('Invalid bloom filters supplied');
@@ -575,7 +578,7 @@ describe('@module kadence/quasar', function() {
 
       it('should callback error if failed to merge', function(done) {
         let local = new BloomFilter({ bitfieldSize: 160, filterDepth: 3 });
-        let rules = new QuasarRules({ filter: local });
+        let rules = new QuasarRules({ filter: local, node: { logger } });
         let send = sinon.stub();
         rules.update({ params: ['bad', 'data?'] }, { send }, function(err) {
           expect(err.message).to.equal('Invalid hex string');
@@ -588,7 +591,7 @@ describe('@module kadence/quasar', function() {
         let local = new BloomFilter({ bitfieldSize: 160, filterDepth: 3 });
         let remote = new BloomFilter({ bitfieldSize: 160, filterDepth: 3 });
         remote[0].add('test');
-        let rules = new QuasarRules({ filter: local });
+        let rules = new QuasarRules({ filter: local, node: { logger } });
         rules.update({ params: remote.toHexArray() }, {
           send: (params) => {
             expect(params).to.have.lengthOf(0);

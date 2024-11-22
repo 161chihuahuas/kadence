@@ -65,7 +65,7 @@
     "split": "^1.0.1",
     "uuid": "^3.2.1"
   },
-  "description": "extensible, hardened, and flexible distributed systems framework",
+  "description": "(d)arknet (u)nder (s/k)ademlia",
   "devDependencies": {
     "chai": "^2.2.0",
     "clean-jsdoc-theme": "^4.3.0",
@@ -84,7 +84,7 @@
     "doc": "doc"
   },
   "engines": {
-    "node": ">=10.x.x"
+    "node": ">=22"
   },
   "homepage": "https://tacticalchihuahua.lol/dusk",
   "keywords": [],
@@ -96,8 +96,7 @@
     "url": "git+https://github.com/tacticalchihuahua/dusk.git"
   },
   "scripts": {
-    "clean": "docker rm $(docker ps -a -q --filter 'network=kadence_default')",
-    "coverage": "istanbul cover _mocha -- --exit --recursive",
+    "clean": "docker rm $(docker ps -a -q --filter 'network=dusk_default')",
     "e2e-tests": "mocha --exit test/*.e2e.js",
     "integration-tests": "mocha --exit test/*.integration.js",
     "linter": "eslint ./index.js ./lib",
