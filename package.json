@@ -67,7 +67,7 @@
     "linter": "eslint --no-config-lookup ./index.js ./lib",
     "test": "npm run unit-tests && npm run e2e-tests && npm run linter",
     "unit-tests": "mocha --exit test/*.unit.js",
-    "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"
+    "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -c .jsdoc.json --verbose -d ./docs"
   },
   "version": "8.0.0"
 }
