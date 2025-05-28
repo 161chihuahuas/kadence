@@ -1,17 +1,16 @@
 'use strict';
 
-const { getRandomUUID } = require('node:crypto');
 const { expect } = require('chai');
+
 const { 
   Client,
   Server } = require('@tacticalchihuahua/mascara');
+
 const {
   constants,
   keys,
   Node,
-  Contact,
-  Router,
-  Protocol } = require('..');
+  Contact } = require('..');
 
 
 function createKademliaNode(port) {
