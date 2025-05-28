@@ -2,7 +2,7 @@
 
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const utils = require('../lib/utils');
+const keys = require('../lib/keys');
 const { Contact } = require('../lib/contact');
 const { Protocol } = require('../lib/protocol');
 
@@ -30,7 +30,7 @@ describe('@class Protocol', function() {
       rules.STORE('some key', {
         meta: {
           timestamp: Date.now(),
-          publisher: utils.getRandomKeyString()
+          publisher: keys.getRandomKeyString()
         },
         blob: Buffer.from('test')
       }, (err) => {
@@ -45,11 +45,11 @@ describe('@class Protocol', function() {
         done(new Error('FAILED'));
       });
       let blob = Buffer.from('test');
-      let hash = utils.hash160(blob).toString('hex');
+      let hash = keys.hash160(blob).toString('hex');
       rules.STORE(hash, {
         meta: {
           timestamp: Date.now(),
-          publisher: utils.getRandomKeyString()
+          publisher: keys.getRandomKeyString()
         },
         blob: blob
       }, (err) => {
@@ -64,9 +64,9 @@ describe('@class Protocol', function() {
         done(null, key, { meta, blob });
       });
       let blob = Buffer.from('test');
-      let hash = utils.hash160(blob).toString('hex');
+      let hash = keys.hash160(blob).toString('hex');
       const timestamp = Date.now();
-      const publisher = utils.getRandomKeyString();
+      const publisher = keys.getRandomKeyString();
       rules.STORE(hash, {
         meta: {
           timestamp,
@@ -100,7 +100,7 @@ describe('@class Protocol', function() {
       let rules = new Protocol({
         getClosestContactsToKey: () => contacts
       });
-      rules.FIND_NODE(utils.getRandomKeyString(), (err, result) => {
+      rules.FIND_NODE(keys.getRandomKeyString(), (err, result) => {
         expect(Array.isArray(result)).to.equal(true);
         expect(result[0][1].fingerprint).to.equal('node id');
         expect(result[0][1].address.hostname).to.equal('localhost');
@@ -130,7 +130,7 @@ describe('@class Protocol', function() {
       rules.events.on('storage:get', (key, done) => {
         done(new Error('Blob not found'));
       });
-      rules.FIND_VALUE(utils.getRandomKeyString(), (err, result) => {
+      rules.FIND_VALUE(keys.getRandomKeyString(), (err, result) => {
         expect(Array.isArray(result)).to.equal(true);
         expect(result[0][0]).to.equal('node id');
         expect(result[0][1].address.hostname).to.equal('localhost');
@@ -143,17 +143,17 @@ describe('@class Protocol', function() {
       let item = {
         meta: {
           timestamp: Date.now(),
-          publisher: utils.getRandomKeyString()
+          publisher: keys.getRandomKeyString()
         },
         blob: Buffer.from('some string')
       };
       const timestamp = Date.now();
-      const publisher = utils.getRandomKeyString();
+      const publisher = keys.getRandomKeyString();
       let rules = new Protocol();
       rules.events.on('storage:get', (key, done) => {
         done(null, item);
       });
-      rules.FIND_VALUE(utils.getRandomKeyString(), (err, result) => {
+      rules.FIND_VALUE(keys.getRandomKeyString(), (err, result) => {
         expect(result).to.equal(item);
         done();
       });

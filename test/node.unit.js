@@ -3,7 +3,7 @@
 const { Readable: ReadableStream } = require('node:stream');
 const { expect } = require('chai');
 const sinon = require('sinon');
-const utils = require('../lib/utils');
+const keys = require('../lib/keys');
 const { Node } = require('../lib/node');
 const { Contact } = require('../lib/contact');
 const constants = require('../lib/constants');
@@ -247,7 +247,7 @@ describe('@class Node', function() {
         'iterativeFindNode'
       ).callsFake(() => {
         return Promise.resolve(
-          Array(20).fill(null).map(() => new Contact(contact, utils.getRandomKeyString()))
+          Array(20).fill(null).map(() => new Contact(contact, keys.getRandomKeyString()))
         );
       });
       let rpcEvents = 0;
@@ -255,7 +255,7 @@ describe('@class Node', function() {
         rpcEvents++;
         d(null, p);
       });
-      kademliaNode.iterativeStore(utils.getRandomKeyString(), 
+      kademliaNode.iterativeStore(keys.getRandomKeyString(), 
         'some storage item data').then(() => {
           sandbox.restore();
           done();
@@ -270,7 +270,7 @@ describe('@class Node', function() {
         'iterativeFindNode'
       ).callsFake(function() {
         return Promise.resolve(
-          Array(20).fill(null).map(() => [utils.getRandomKeyString(), contact])
+          Array(20).fill(null).map(() => [keys.getRandomKeyString(), contact])
         );
       });
       kademliaNode.events.removeAllListeners();
@@ -278,7 +278,7 @@ describe('@class Node', function() {
         d(new Error('Failed'));
         kademliaNode.events.on('node:rpc', (m, p, c, d) => d());
       });
-      kademliaNode.iterativeStore(utils.getRandomKeyString(), {
+      kademliaNode.iterativeStore(keys.getRandomKeyString(), {
         blob: Buffer.from('some storage item data'),
         meta: {
           publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127',
@@ -308,7 +308,7 @@ describe('@class Node', function() {
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       let contacts = Array(20).fill(null).map(() => {
-        return new Contact(contact, utils.getRandomKeyString())
+        return new Contact(contact, keys.getRandomKeyString())
       });
       kademliaNode.events.once('node:rpc', (method, params, contact, done) => {
         done(null, contacts);
@@ -324,7 +324,7 @@ describe('@class Node', function() {
         _updateContact.restore();
         expect(_updateContact.callCount).to.equal(20);
         results.forEach((contact) => {
-          expect(utils.keyStringIsValid(contact.fingerprint)).to.equal(true);
+          expect(keys.keyStringIsValid(contact.fingerprint)).to.equal(true);
         });
         kademliaNode.events.removeAllListeners();
         done();
@@ -346,14 +346,14 @@ describe('@class Node', function() {
       kademliaNode.events.once('node:rpc', (m, p, c, d) => {
         d(null, [new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127')].concat(
           Array(20).fill(null).map(() => {
-            return new Contact(contact, utils.getRandomKeyString());
+            return new Contact(contact, keys.getRandomKeyString());
           })
         ));
         kademliaNode.events.on('node:rpc', (m, p, c, d) => {
           getClosestContactsToKey.restore();
           _updateContact.restore();
           d(null, Array(20).fill(null).map(() => {
-            return new Contact(contact, utils.getRandomKeyString())
+            return new Contact(contact, keys.getRandomKeyString())
           }));
         });
       });
@@ -387,7 +387,7 @@ describe('@class Node', function() {
         getClosestContactsToKey.restore();
         _updateContact.restore();
         done(null, Array(20).fill(null).map(() => {
-          return new Contact(contact, utils.getRandomKeyString());
+          return new Contact(contact, keys.getRandomKeyString());
         }));
       });
       kademliaNode.iterativeFindNode('ea48d3f07a5241291ed0b4cab6483fa8b8fcc126')
@@ -409,7 +409,7 @@ describe('@class Node', function() {
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       let contacts = Array(20).fill(null).map(() => {
-        return new Contact(contact, utils.getRandomKeyString())
+        return new Contact(contact, keys.getRandomKeyString())
       });
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.once('node:rpc', (m, p, c, d) => {
@@ -444,17 +444,17 @@ describe('@class Node', function() {
         'getClosestContactsToKey'
       ).returns([...Array(20).fill(null).map(() => new Contact(
         contact,
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ))]);
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.on('node:rpc', (m, p, c, d) => {
         d(null, Array(20).fill(20).map(() => {
-          return new Contact(contact, utils.getRandomKeyString());
+          return new Contact(contact, keys.getRandomKeyString());
         }));
         sandbox.restore();
       });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ).then((result) => {
         expect(Array.isArray(result)).to.equal(true);
         expect(result).to.have.lengthOf(constants.K);
@@ -470,7 +470,7 @@ describe('@class Node', function() {
         'getClosestContactsToKey'
       ).returns([...Array(10).fill(null).map(() => new Contact(
         contact,
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ))]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();  
@@ -486,12 +486,12 @@ describe('@class Node', function() {
           });
         }
         d(null, Array(20).fill(null).map(() => {
-          return new Contact(contact, utils.getRandomKeyString());
+          return new Contact(contact, keys.getRandomKeyString());
         }));
         sandbox.restore();
       });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ).then((result) => {
         sandbox.restore();
         expect(result.blob).to.equal('some data value');
@@ -507,7 +507,7 @@ describe('@class Node', function() {
         'getClosestContactsToKey'
       ).returns([...Array(20).fill(null).map(() => new Contact(
         contact,
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ))]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();
@@ -522,11 +522,11 @@ describe('@class Node', function() {
             }
           });
         }
-        d(null, Array(20).fill(20).map(() => new Contact(contact, utils.getRandomKeyString())));
+        d(null, Array(20).fill(20).map(() => new Contact(contact, keys.getRandomKeyString())));
         sandbox.restore();
       });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ).then((result) => {
         expect(result.blob).to.equal('some data value');
         done();
@@ -541,7 +541,7 @@ describe('@class Node', function() {
         'getClosestContactsToKey'
       ).returns([...Array(20).fill(null).map(() => new Contact(
         contact,
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ))]);
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.once('node:rpc', (m, p, c, d) => {
@@ -558,7 +558,7 @@ describe('@class Node', function() {
         });
       });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString()
+        keys.getRandomKeyString()
       ).then((result) => {
         expect(result.blob).to.equal('some data value');
         done();
@@ -573,7 +573,7 @@ describe('@class Node', function() {
       let sandbox = sinon.sandbox.create();
       let items = [
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - constants.T_REPUBLISH,
@@ -581,19 +581,19 @@ describe('@class Node', function() {
           }
         },
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - constants.T_REPLICATE,
-            publisher: utils.getRandomKeyString()
+            publisher: keys.getRandomKeyString()
           }
         },
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - 1000,
-            publisher: utils.getRandomKeyString()
+            publisher: keys.getRandomKeyString()
           }
         }
       ];
@@ -627,7 +627,7 @@ describe('@class Node', function() {
       let sandbox = sinon.sandbox.create();
       let items = [
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - constants.T_EXPIRE,
@@ -635,19 +635,19 @@ describe('@class Node', function() {
           }
         },
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - constants.T_EXPIRE,
-            publisher: utils.getRandomKeyString()
+            publisher: keys.getRandomKeyString()
           }
         },
         {
-          hash: utils.getRandomKeyString(),
+          hash: keys.getRandomKeyString(),
           blob: 'some value',
           meta: {
             timestamp: Date.now() - 1000,
-            publisher: utils.getRandomKeyString()
+            publisher: keys.getRandomKeyString()
           }
         }
       ];
@@ -687,11 +687,11 @@ describe('@class Node', function() {
         d(null, []);
       });
       kademliaNode.router.get(0).set(
-        utils.getRandomKeyString(),
+        keys.getRandomKeyString(),
         { hostname: 'localhost', port: 8080 }
       );
       kademliaNode.router.get(2).set(
-        utils.getRandomKeyString(),
+        keys.getRandomKeyString(),
         { hostname: 'localhost', port: 8080 }
       );
       for (var i=0; i<constants.B; i++) {

@@ -1,7 +1,7 @@
 'use strict';
 
 const { expect } = require('chai');
-const utils = require('../lib/utils');
+const keys = require('../lib/keys');
 const constants = require('../lib/constants');
 const { Router } = require('../lib/router');
 
@@ -11,7 +11,7 @@ describe('@class Router', function() {
   describe('@constructor', function() {
 
     it('should use the given identity and create B buckets', function() {
-      let identity = utils.getRandomKeyBuffer();
+      let identity = keys.getRandomKeyBuffer();
       let router = new Router(identity);
       expect(router.identity).to.equal(identity);
       expect([...router.entries()]).to.have.lengthOf(constants.B);
@@ -22,12 +22,12 @@ describe('@class Router', function() {
   describe('@property size', function() {
 
     it('should return the total contacts across all buckets', function() {
-      let identity = utils.getRandomKeyBuffer();
+      let identity = keys.getRandomKeyBuffer();
       let router = new Router(identity);
       let contacts = 20;
       let counter = 0;
       while (counter < contacts) {
-        router.addContactByNodeId(utils.getRandomKeyString(), {});
+        router.addContactByNodeId(keys.getRandomKeyString(), {});
         counter++;
       }
       expect(router.size).to.equal(contacts);
@@ -48,7 +48,7 @@ describe('@class Router', function() {
 
     it('should return the bucket index for the given contact', function() {
       let router = new Router();
-      let nodeId = utils.getRandomKeyString();
+      let nodeId = keys.getRandomKeyString();
       let [bucketIndex] = router.addContactByNodeId(nodeId, {});
       expect(router.indexOf(nodeId)).to.equal(bucketIndex);
     });
@@ -59,7 +59,7 @@ describe('@class Router', function() {
 
     it('should return the contact object by node id', function() {
       let router = new Router();
-      let nodeId = utils.getRandomKeyString();
+      let nodeId = keys.getRandomKeyString();
       let contactObj = { hostname: 'localhost', port: 8080 };
       router.addContactByNodeId(nodeId, contactObj);
       expect(router.getContactByNodeId(nodeId)).to.equal(contactObj);
@@ -71,7 +71,7 @@ describe('@class Router', function() {
 
     it('should remove the contact object by node id', function() {
       let router = new Router();
-      let nodeId = utils.getRandomKeyString();
+      let nodeId = keys.getRandomKeyString();
       let contactObj = { hostname: 'localhost', port: 8080 };
       router.addContactByNodeId(nodeId, contactObj);
       router.removeContactByNodeId(nodeId);

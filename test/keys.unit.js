@@ -2,11 +2,11 @@
 
 const { expect } = require('chai');
 const { stub } = require('sinon');
-const utils = require('../lib/utils');
+const utils = require('../lib/keys');
 const constants = require('../lib/constants');
 
 
-describe('@module utils', function() {
+describe('@module keys', function() {
 
   describe('@function getRandomKeyString', function() {
 
@@ -218,55 +218,6 @@ describe('@module utils', function() {
         let bucketIndex = utils.getBucketIndex(key, randomInRange);
         expect(Math.abs(index - bucketIndex) <= 7).to.equal(true);
       });
-    });
-
-  });
-
-  describe('@function validateStorageAdapter', function() {
-
-    it('should fail if invalid storage adapter', function() {
-      expect(function() {
-        utils.validateStorageAdapter();
-      }).to.throw(Error, 'No storage adapter supplied');
-      expect(function() {
-        utils.validateStorageAdapter({
-          put: stub(),
-          del: stub(),
-          createReadStream: stub()
-        });
-      }).to.throw(Error, 'Store has no get method');
-      expect(function() {
-        utils.validateStorageAdapter({
-          get: stub(),
-          del: stub(),
-          createReadStream: stub()
-        });
-      }).to.throw(Error, 'Store has no put method');
-      expect(function() {
-        utils.validateStorageAdapter({
-          get: stub(),
-          put: stub(),
-          createReadStream: stub()
-        });
-      }).to.throw(Error, 'Store has no del method');
-      expect(function() {
-        utils.validateStorageAdapter({
-          get: stub(),
-          put: stub(),
-          del: stub(),
-        });
-      }).to.throw(Error, 'Store has no createReadStream method');
-    });
-
-    it('should pass if valid storage adapter', function() {
-      expect(function() {
-        utils.validateStorageAdapter({
-          get: stub(),
-          put: stub(),
-          del: stub(),
-          createReadStream: stub()
-        });
-      }).to.not.throw(Error);
     });
 
   });
