@@ -43,7 +43,7 @@ describe('@class Protocol', function() {
 
     it('should pass to error handler if store fail', function(done) {
       let rules = new Protocol();
-      rules.events.on('storage:put', (key, { meta, blob }, done) => {
+      rules.events.on('storage_put', (key, { meta, blob }, done) => {
         done(new Error('FAILED'));
       });
       let blob = Buffer.from('test');
@@ -62,7 +62,7 @@ describe('@class Protocol', function() {
 
     it('should echo back arguments if stored', function(done) {
       let rules = new Protocol();
-      rules.events.on('storage:put', (key, { meta, blob }, done) => {
+      rules.events.on('storage_put', (key, { meta, blob }, done) => {
         done(null, key, { meta, blob });
       });
       let blob = Buffer.from('test');
@@ -131,7 +131,7 @@ describe('@class Protocol', function() {
         getClosestContactsToKey: stub().returns(contacts),
         addContactByNodeId: () => null
       });
-      rules.events.on('storage:get', (key, done) => {
+      rules.events.on('storage_get', (key, done) => {
         done(new Error('Blob not found'));
       });
       rules.FIND_VALUE(keys.getRandomKeyString(), contact, (err, result) => {
@@ -154,7 +154,7 @@ describe('@class Protocol', function() {
       const timestamp = Date.now();
       const publisher = keys.getRandomKeyString();
       let rules = new Protocol();
-      rules.events.on('storage:get', (key, done) => {
+      rules.events.on('storage_get', (key, done) => {
         done(null, item);
       });
       rules.FIND_VALUE(keys.getRandomKeyString(), contact, (err, result) => {

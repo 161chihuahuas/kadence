@@ -224,7 +224,7 @@ describe('@class Node', function() {
         hostname: 'localhost',
         port: 8080
       }, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128');
-      kademliaNode.events.once('node:rpc', (method, params, contact, done) => {
+      kademliaNode.events.once('message_queued', (method, params, contact, done) => {
         setTimeout(() => {
           done(null, [Date.now()]);
         }, 25);
@@ -251,7 +251,7 @@ describe('@class Node', function() {
         );
       });
       let rpcEvents = 0;
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         rpcEvents++;
         d(null, p);
       });
@@ -274,9 +274,9 @@ describe('@class Node', function() {
         );
       });
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.once('message_queued', (m, p, c, d) => {
         d(new Error('Failed'));
-        kademliaNode.events.on('node:rpc', (m, p, c, d) => d());
+        kademliaNode.events.on('message_queued', (m, p, c, d) => d());
       });
       kademliaNode.iterativeStore(keys.getRandomKeyString(), {
         blob: Buffer.from('some storage item data'),
@@ -310,11 +310,11 @@ describe('@class Node', function() {
       let contacts = Array(20).fill(null).map(() => {
         return new Contact(contact, keys.getRandomKeyString())
       });
-      kademliaNode.events.once('node:rpc', (method, params, contact, done) => {
+      kademliaNode.events.once('message_queued', (method, params, contact, done) => {
         done(null, contacts);
-        kademliaNode.events.once('node:rpc', (method, params, contact, done) => {
+        kademliaNode.events.once('message_queued', (method, params, contact, done) => {
           done(new Error('Lookup failed'));
-          kademliaNode.events.on('node:rpc', (method, params, contact, done) => {
+          kademliaNode.events.on('message_queued', (method, params, contact, done) => {
             done(null, contacts);
           });
         });
@@ -343,13 +343,13 @@ describe('@class Node', function() {
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       kademliaNode.events.removeAllListeners(); 
-      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.once('message_queued', (m, p, c, d) => {
         d(null, [new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127')].concat(
           Array(20).fill(null).map(() => {
             return new Contact(contact, keys.getRandomKeyString());
           })
         ));
-        kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        kademliaNode.events.on('message_queued', (m, p, c, d) => {
           getClosestContactsToKey.restore();
           _updateContact.restore();
           d(null, Array(20).fill(null).map(() => {
@@ -383,7 +383,7 @@ describe('@class Node', function() {
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         getClosestContactsToKey.restore();
         _updateContact.restore();
         done(null, Array(20).fill(null).map(() => {
@@ -412,9 +412,9 @@ describe('@class Node', function() {
         return new Contact(contact, keys.getRandomKeyString())
       });
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
-        kademliaNode.events.once('node:rpc', (m, p, c, d) => {
-          kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.once('message_queued', (m, p, c, d) => {
+        kademliaNode.events.once('message_queued', (m, p, c, d) => {
+          kademliaNode.events.on('message_queued', (m, p, c, d) => {
             d(null, contacts);
           });
           d(new Error('Lookup failed'));
@@ -447,7 +447,7 @@ describe('@class Node', function() {
         keys.getRandomKeyString()
       )])]);
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         d(null, Array(20).fill(20).map(() => {
           return new Contact(contact, keys.getRandomKeyString());
         }));
@@ -474,7 +474,7 @@ describe('@class Node', function() {
       )])]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();  
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         callCount++;
         if (callCount === 10) {
           return d(null, { 
@@ -511,7 +511,7 @@ describe('@class Node', function() {
       )])]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         callCount++;
         if (callCount === 4) {
           return d(null, {
@@ -544,9 +544,9 @@ describe('@class Node', function() {
         keys.getRandomKeyString()
       )])]);
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.once('message_queued', (m, p, c, d) => {
         d(new Error('Request timeout'));
-        kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        kademliaNode.events.on('message_queued', (m, p, c, d) => {
           d(null, {
             blob: 'some data value',
             meta: {
@@ -607,7 +607,7 @@ describe('@class Node', function() {
           }
         }
       });
-      kademliaNode.events.once('node:replicate', (replicator) => {
+      kademliaNode.events.once('storage_replicate', (replicator) => {
         rs.pipe(replicator).on('finish', () => {
           sandbox.restore();
           expect(iterativeStore.callCount).to.equal(2);
@@ -663,10 +663,10 @@ describe('@class Node', function() {
       });
       let delCount = 0;
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.on('storage:del', (hash) => {
+      kademliaNode.events.on('storage_delete', (hash) => {
         delCount++;
       });
-      kademliaNode.events.on('node:expire', (expirer) => {
+      kademliaNode.events.on('storage_expire', (expirer) => {
         rs.pipe(expirer).on('finish', () => {
           sandbox.restore();
           expect(delCount).to.equal(2);
@@ -683,7 +683,7 @@ describe('@class Node', function() {
     it('should refresh the correct buckets', function(done) {
       let sandbox = sinon.sandbox.create();
       kademliaNode.events.removeAllListeners();
-      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+      kademliaNode.events.on('message_queued', (m, p, c, d) => {
         d(null, []);
       });
       kademliaNode.router.get(0).set(

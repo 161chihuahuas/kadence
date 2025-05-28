@@ -28,7 +28,7 @@ function createKademliaNode(port) {
   const pool = new Map();
   const store = new Map();
 
-  node.events.on('node:rpc', (method, params, target, send) => {
+  node.events.on('message_queued', (method, params, target, send) => {
     let client = pool.get(target.fingerprint);
 
     if (!client) {
@@ -45,26 +45,19 @@ function createKademliaNode(port) {
     } else {
       client.invoke(method, params, send);
     }
-  });
-
-  node.protocol.events
-    .on('storage:get', (hash, done) => {
-      if (store.has(hash)) {
-        done(null, store.get(hash));
-      } else {
-        done(new Error('Not found'));
-      }
-    })
-    .on('storage:put', (hash, data, done) => {
-      store.set(hash, data);
-      done(null, hash);
-    })
-    .on('storage:del', (hash, done) => {
-      store.delete(hash);
-      done(null);
-    });
-
-  node.events.on('node:replicate', (replicatorStream) => {
+  }).on('storage_get', (hash, done) => {
+    if (store.has(hash)) {
+      done(null, store.get(hash));
+    } else {
+      done(new Error('Not found'));
+    }
+  }).on('storage_put', (hash, data, done) => {
+    store.set(hash, data);
+    done(null, hash);
+  }).on('storage_delete', (hash, done) => {
+    store.delete(hash);
+    done(null);
+  }).on('storage_replicate', (replicatorStream) => {
     const data = [...store.values()];
     const readStream = new ReadableStream({
       objectMode: true,
@@ -73,9 +66,7 @@ function createKademliaNode(port) {
       }
     });
     readStream.pipe(replicatorStream);
-  });
-
-  node.events.on('node:expire', (expirerStream) => {
+  }).on('storage_expire', (expirerStream) => {
     const data = [...store.values()];
     const readStream = new ReadableStream({
       objectMode: true,
