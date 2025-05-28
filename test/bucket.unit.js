@@ -1,7 +1,7 @@
 'use strict'
 
 const { expect } = require('chai');
-const Bucket = require('../lib/bucket');
+const Bucket = require('../lib/bucket').Bucket;
 
 
 describe('@class Bucket', function() {

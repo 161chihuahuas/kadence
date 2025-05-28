@@ -1,13 +1,10 @@
 {
   "author": {
-    "name": "Lily Anne Hall",
-    "email": "lily@tacticalchihuahua.lol"
-  },
-  "bin": {
-    "kadence": "bin/kadence.js"
+    "name": "lily anne",
+    "email": "161chihuahuas@disroot.org"
   },
   "bugs": {
-    "url": "https://github.com/tacticalchihuahua/kadence/issues"
+    "url": "https://github.com/161chihuahuas/kadence/issues"
   },
   "contributors": [
     {
@@ -27,57 +24,15 @@
       "url": "https://gitlab.com/simonovic86"
     }
   ],
-  "dependencies": {
-    "@tacticalchihuahua/diglet": "^4.0.0",
-    "@tacticalchihuahua/equihash": "^1.0.0",
-    "@tacticalchihuahua/granax": "^3.3.0",
-    "async": "^2.6.0",
-    "atbf": "^1.1.0",
-    "boscar": "^2.0.0",
-    "bunyan": "^1.8.12",
-    "bunyan-rotating-file-stream": "^1.6.3",
-    "bytes": "^3.0.0",
-    "commander": "^2.9.0",
-    "concat-stream": "^1.6.0",
-    "daemon": "^1.1.0",
-    "encoding-down": "^6.0.1",
-    "ip": "^1.1.5",
-    "json-stable-stringify": "^1.0.1",
-    "jsonrpc-lite": "^1.3.0",
-    "knuth-shuffle": "^1.0.8",
-    "leveldown": "^6.1.1",
-    "levelup": "^5.1.1",
-    "lru-cache": "^4.1.1",
-    "merge": "^1.2.1",
-    "metapipe": "^2.0.2",
-    "mkdirp": "^0.5.1",
-    "ms": "^2.1.1",
-    "nat-pmp": "*",
-    "nat-upnp": "^1.1.1",
-    "network": "^0.4.1",
-    "node-gyp": "^10.2.0",
-    "npid": "^0.4.0",
-    "onion-regex": "^2.0.8",
-    "pem": "^1.13.2",
-    "rc": "^1.2.8",
-    "secp256k1": "=3.2.2",
-    "semver": "^5.1.0",
-    "socks": "^1.1.10",
-    "split": "^1.0.1",
-    "uuid": "^3.2.1"
-  },
-  "description": "extensible, hardened, and flexible distributed systems framework",
+  "description": "zero-dependency kademlia primitives for p2p networks",
   "devDependencies": {
+    "@tacticalchihuahua/mascara": "^1.0.0",
     "chai": "^2.2.0",
     "clean-jsdoc-theme": "^4.3.0",
-    "coveralls": "^3.0.1",
     "eslint": "^5.14.1",
-    "istanbul": "^1.1.0-alpha.1",
-    "jsdoc": "^3.6.3",
-    "memdown": "^2.0.0",
-    "mocha": "^5.2.0",
+    "jsdoc": "^4.0.4",
+    "mocha": "^11.5.0",
     "proxyquire": "^1.8.0",
-    "rimraf": "^2.6.1",
     "sinon": "^2.4.1"
   },
   "directories": {
@@ -86,27 +41,33 @@
     "doc": "doc"
   },
   "engines": {
-    "node": ">=10.x.x"
+    "node": ">=22"
   },
-  "homepage": "https://tacticalchihuahua.lol/kadence",
-  "keywords": [],
+  "homepage": "https://lilyanne.me/kadence",
+  "keywords": [
+    "kademlia",
+    "dht",
+    "distributed hash table",
+    "bittorrent",
+    "dusk",
+    "p2p",
+    "peer-to-peer",
+    "kad"
+  ],
   "license": "AGPL-3.0",
   "main": "index.js",
   "name": "@tacticalchihuahua/kadence",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/tacticalchihuahua/kadence.git"
+    "url": "git+https://github.com/161chihuahuas/kadence.git"
   },
   "scripts": {
-    "clean": "docker rm $(docker ps -a -q --filter 'network=kadence_default')",
-    "coverage": "istanbul cover _mocha -- --exit --recursive",
     "e2e-tests": "mocha --exit test/*.e2e.js",
     "integration-tests": "mocha --exit test/*.integration.js",
     "linter": "eslint ./index.js ./lib",
-    "start": "docker-compose up --build --force-recreate --always-recreate-deps",
-    "test": "npm run unit-tests && npm run integration-tests && npm run e2e-tests && npm run linter",
+    "test": "npm run unit-tests && npm run e2e-tests && npm run linter",
     "unit-tests": "mocha --exit test/*.unit.js",
     "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"
   },
-  "version": "7.0.0"
+  "version": "8.0.0"
 }
