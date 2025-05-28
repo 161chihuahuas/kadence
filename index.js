@@ -21,7 +21,7 @@ module.exports.ContactList = require('./lib/contact').ContactList;
 /** {@link module:kadence/constants} */
 module.exports.constants = require('./lib/constants');
 
-/** {@link module:kadence/utils} */
-module.exports.utils = require('./lib/utils');
+/** {@link module:kadence/keys} */
+module.exports.keys = require('./lib/keys');
 
 

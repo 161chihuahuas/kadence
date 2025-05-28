@@ -34,7 +34,7 @@ describe('@class Node', function() {
       setImmediate(() => {
         expect(kademliaNode.router.getContactByNodeId(
           'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'
-        )).to.equal(contact);
+        ).fingerprint).to.equal(contact.fingerprint);
         done();
       });
     });
@@ -302,9 +302,9 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')]
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       let contacts = Array(20).fill(null).map(() => {
@@ -337,9 +337,9 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')]
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       kademliaNode.events.removeAllListeners(); 
@@ -377,9 +377,9 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')]
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       kademliaNode.events.removeAllListeners();
@@ -403,9 +403,9 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
-        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128')],
+        [,new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')]
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
       let contacts = Array(20).fill(null).map(() => {
@@ -442,10 +442,10 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns([...Array(20).fill(null).map(() => new Contact(
+      ).returns([...Array(20).fill(null).map(() => [,new Contact(
         contact,
         keys.getRandomKeyString()
-      ))]);
+      )])]);
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.on('node:rpc', (m, p, c, d) => {
         d(null, Array(20).fill(20).map(() => {
@@ -468,10 +468,10 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns([...Array(10).fill(null).map(() => new Contact(
+      ).returns([...Array(10).fill(null).map(() => [,new Contact(
         contact,
         keys.getRandomKeyString()
-      ))]);
+      )])]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();  
       kademliaNode.events.on('node:rpc', (m, p, c, d) => {
@@ -505,10 +505,10 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns([...Array(20).fill(null).map(() => new Contact(
+      ).returns([...Array(20).fill(null).map(() => [,new Contact(
         contact,
         keys.getRandomKeyString()
-      ))]);
+      )])]);
       let callCount = 0;
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.on('node:rpc', (m, p, c, d) => {
@@ -539,10 +539,10 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns([...Array(20).fill(null).map(() => new Contact(
+      ).returns([...Array(20).fill(null).map(() => [,new Contact(
         contact,
         keys.getRandomKeyString()
-      ))]);
+      )])]);
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.once('node:rpc', (m, p, c, d) => {
         d(new Error('Request timeout'));
