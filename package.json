@@ -29,7 +29,7 @@
     "@tacticalchihuahua/mascara": "^1.0.0",
     "chai": "^2.2.0",
     "clean-jsdoc-theme": "^4.3.0",
-    "eslint": "^5.14.1",
+    "eslint": "^9.27.0",
     "jsdoc": "^4.0.4",
     "mocha": "^11.5.0",
     "proxyquire": "^1.8.0",
@@ -64,7 +64,7 @@
   "scripts": {
     "e2e-tests": "mocha --exit test/*.e2e.js",
     "integration-tests": "mocha --exit test/*.integration.js",
-    "linter": "eslint ./index.js ./lib",
+    "linter": "eslint --no-config-lookup ./index.js ./lib",
     "test": "npm run unit-tests && npm run e2e-tests && npm run linter",
     "unit-tests": "mocha --exit test/*.unit.js",
     "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -u ./tutorials -c .jsdoc.json --verbose -d ./docs"

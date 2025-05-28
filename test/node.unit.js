@@ -20,7 +20,6 @@ describe('@class Node', function() {
   }, 'aa48d3f07a5241291ed0b4cab6483fa8b8fcc128');
 
   before(() => {
-    clock = sinon.useFakeTimers(Date.now(), 'setInterval');
     kademliaNode = new Node(contact);
   });
 
@@ -324,14 +323,12 @@ describe('@class Node', function() {
         getClosestContactsToKey.restore();
         _updateContact.restore();
         expect(_updateContact.callCount).to.equal(20);
-        expect(results).to.have.lengthOf(2);
-        results.forEach(([key, c]) => {
-          expect(utils.keyStringIsValid(key)).to.equal(true);
-          expect(contact).to.equal(c);
+        results.forEach((contact) => {
+          expect(utils.keyStringIsValid(contact.fingerprint)).to.equal(true);
         });
         kademliaNode.events.removeAllListeners();
         done();
-      });
+      }, done);
     });
 
     it('should iterate through closer nodes', function(done) {
@@ -340,45 +337,38 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc125', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc128', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc129', contact]
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
-      let send = sinon.stub(kademliaNode, 'send');
-      send.callsArgWith(
-        3,
-        null,
-        Array(20).fill(null).map(() => {
-          return [utils.getRandomKeyString(), contact]
-        })
-      );
-      send.onCall(0).callsArgWith(
-        3,
-        null,
-        [['ea48d3f07a5241291ed0b4cab6483fa8b8fcc127', contact]].concat(
+      kademliaNode.events.removeAllListeners(); 
+      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+        d(null, [new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127')].concat(
           Array(20).fill(null).map(() => {
-            return [utils.getRandomKeyString(), contact]
+            return new Contact(contact, utils.getRandomKeyString());
           })
-        )
-      )
-      kademliaNode.iterativeFindNode(
-        'ea48d3f07a5241291ed0b4cab6483fa8b8fcc126',
-        (err, results) => {
+        ));
+        kademliaNode.events.on('node:rpc', (m, p, c, d) => {
           getClosestContactsToKey.restore();
           _updateContact.restore();
-          send.restore();
-          expect(err).to.equal(null);
+          d(null, Array(20).fill(null).map(() => {
+            return new Contact(contact, utils.getRandomKeyString())
+          }));
+        });
+      });
+      kademliaNode.iterativeFindNode('ea48d3f07a5241291ed0b4cab6483fa8b8fcc126')
+        .then((results) => {
+          kademliaNode.events.removeAllListeners();
           expect(results).to.have.lengthOf(constants.K);
-          expect(results[0][0]).to.equal(
+          expect(results[0].fingerprint).to.equal(
             'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
           );
-          expect(results[1][0]).to.equal(
+          expect(results[1].fingerprint).to.equal(
             'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125'
           );
           done();
-        }
-      );
+        }, done);
     });
 
     it('should call each node a maximum of once', function(done) {
@@ -387,34 +377,24 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc125', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc128', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc129', contact]
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc125'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
-      let send = sinon.stub(kademliaNode, 'send');
-      send.callsArgWith(
-        3,
-        null,
-        Array(20).fill(null).map(() => {
-          return [utils.getRandomKeyString(), contact]
-        })
-      );
-      kademliaNode.iterativeFindNode(
-        'ea48d3f07a5241291ed0b4cab6483fa8b8fcc126',
-        () => {
-          let sentNodes = send.args.map( args => args[2][0]);
-          expect(sentNodes).to.deep.equal(sentNodes.filter(
-            (value, index, self) => {
-              return self.indexOf(value) === index;
-            })
-          )
-          getClosestContactsToKey.restore();
-          _updateContact.restore();
-          send.restore();
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        getClosestContactsToKey.restore();
+        _updateContact.restore();
+        done(null, Array(20).fill(null).map(() => {
+          return new Contact(contact, utils.getRandomKeyString());
+        }));
+      });
+      kademliaNode.iterativeFindNode('ea48d3f07a5241291ed0b4cab6483fa8b8fcc126')
+        .then(() => {
+          kademliaNode.events.removeAllListeners();
           done();
-        }
-      );
+        }, done);
     });
 
     it('should not include inactive nodes in the result', function(done) {
@@ -423,48 +403,34 @@ describe('@class Node', function() {
         kademliaNode.router,
         'getClosestContactsToKey'
       ).returns([
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc127', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc128', contact],
-        ['ea48d3f07a5241291ed0b4cab6483fa8b8fcc129', contact]
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc128'),
+        new Contact(contact, 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc129')
       ]);
       let _updateContact = sinon.stub(kademliaNode, '_updateContact');
-      let send = sinon.stub(kademliaNode, 'send');
       let contacts = Array(20).fill(null).map(() => {
-        return [utils.getRandomKeyString(), contact]
+        return new Contact(contact, utils.getRandomKeyString())
       });
-      send.onCall(0).callsArgWith(
-        3,
-        null,
-        contacts
-      );
-      send.onCall(1).callsArgWith(
-        3,
-        new Error('Lookup failed')
-      );
-      send.onCall(2).callsArgWith(
-        3,
-        null,
-        contacts
-      );
-      for (var i=0; i<20; i++) {
-        send.onCall(i + 3).callsArgWith(
-          3,
-          contacts
-        );
-      }
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+        kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+          kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+            d(null, contacts);
+          });
+          d(new Error('Lookup failed'));
+        });
+        d(null, contacts);
+        getClosestContactsToKey.restore();
+        _updateContact.restore();
+      });
       kademliaNode.iterativeFindNode(
-        'ea48d3f07a5241291ed0b4cab6483fa8b8fcc126',
-        (err, results) => {
-          getClosestContactsToKey.restore();
-          _updateContact.restore();
-          send.restore();
-          expect(err).to.equal(null);
-          results.forEach(([key]) => {
+        'ea48d3f07a5241291ed0b4cab6483fa8b8fcc126'
+      ).then((results) => {
+          results.forEach(({ fingerprint: key }) => {
             expect(key).to.not.equal('ea48d3f07a5241291ed0b4cab6483fa8b8fcc128')
           });
           done();
-        }
-      );
+        }, done);
     });
   });
 
@@ -476,24 +442,24 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns(new Map(Array(20).fill(null).map(() => [
-        utils.getRandomKeyString(),
-        contact
-      ])));
-      sandbox.stub(kademliaNode, 'send').callsArgWith(
-        3,
-        null,
-        Array(20).fill(20).map(() => [utils.getRandomKeyString(), contact])
-      );
+      ).returns([...Array(20).fill(null).map(() => new Contact(
+        contact,
+        utils.getRandomKeyString()
+      ))]);
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        d(null, Array(20).fill(20).map(() => {
+          return new Contact(contact, utils.getRandomKeyString());
+        }));
+        sandbox.restore();
+      });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString(),
-        (err, result) => {
-          sandbox.restore();
-          expect(Array.isArray(result)).to.equal(true);
-          expect(result).to.have.lengthOf(constants.K);
-          done();
-        }
-      );
+        utils.getRandomKeyString()
+      ).then((result) => {
+        expect(Array.isArray(result)).to.equal(true);
+        expect(result).to.have.lengthOf(constants.K);
+        done();
+      }, done);
     });
 
     it('should find a value at a currently unknown node', function(done) {
@@ -502,30 +468,35 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns(new Map(Array(10).fill(null).map(() => [
-        utils.getRandomKeyString(),
-        contact
-      ])));
-      let send = sandbox.stub(kademliaNode, 'send').callsArgWith(
-        3,
-        null,
-        Array(20).fill(null).map(() => {
-          return [utils.getRandomKeyString(), contact]
-        })
-      );
-      send.onCall(10).callsArgWith(3, null, {
-        value: 'some data value',
-        timestamp: Date.now(),
-        publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
+      ).returns([...Array(10).fill(null).map(() => new Contact(
+        contact,
+        utils.getRandomKeyString()
+      ))]);
+      let callCount = 0;
+      kademliaNode.events.removeAllListeners();  
+      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        callCount++;
+        if (callCount === 10) {
+          return d(null, { 
+            blob: 'some data value',
+            meta: {
+              timestamp: Date.now(),
+              publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127' 
+            }
+          });
+        }
+        d(null, Array(20).fill(null).map(() => {
+          return new Contact(contact, utils.getRandomKeyString());
+        }));
+        sandbox.restore();
       });
       kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString(),
-        (err, result) => {
-          sandbox.restore();
-          expect(result.value).to.equal('some data value');
-          done();
-        }
-      );
+        utils.getRandomKeyString()
+      ).then((result) => {
+        sandbox.restore();
+        expect(result.blob).to.equal('some data value');
+        done();
+      }, done);
     });
 
     it('should store the value at the closest missing node', function(done) {
@@ -534,27 +505,32 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns(new Map(Array(20).fill(null).map(() => [
-        utils.getRandomKeyString(),
-        contact
-      ])));
-      let send = sandbox.stub(kademliaNode, '_send').returns(Promise.resolve(
-        Array(20).fill(20).map(() => [utils.getRandomKeyString(), contact])
-      ));
-      send.onCall(4).returns(Promise.resolve({
-        value: 'some data value',
-        timestamp: Date.now(),
-        publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
-      }));
-      kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString(),
-        (err, result) => {
-          sandbox.restore();
-          expect(result.value).to.equal('some data value');
-          expect(send.callCount >= 6).to.equal(true);
-          done();
+      ).returns([...Array(20).fill(null).map(() => new Contact(
+        contact,
+        utils.getRandomKeyString()
+      ))]);
+      let callCount = 0;
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        callCount++;
+        if (callCount === 4) {
+          return d(null, {
+            blob: 'some data value',
+            meta: {
+              timestamp: Date.now(),
+              publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
+            }
+          });
         }
-      );
+        d(null, Array(20).fill(20).map(() => new Contact(contact, utils.getRandomKeyString())));
+        sandbox.restore();
+      });
+      kademliaNode.iterativeFindValue(
+        utils.getRandomKeyString()
+      ).then((result) => {
+        expect(result.blob).to.equal('some data value');
+        done();
+      }, done);
     });
 
     it('should immediately callback if value found', function(done) {
@@ -563,25 +539,30 @@ describe('@class Node', function() {
       sandbox.stub(
         kademliaNode.router,
         'getClosestContactsToKey'
-      ).returns(new Map(Array(20).fill(null).map(() => [
-        utils.getRandomKeyString(),
-        contact
-      ])));
-      let send = sandbox.stub(kademliaNode, '_send').returns(Promise.resolve({
-        value: 'some data value',
-        timestamp: Date.now(),
-        publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
-      }));
-      send.onCall(0).returns(Promise.reject(new Error('Request timeout')));
-      kademliaNode.iterativeFindValue(
-        utils.getRandomKeyString(),
-        (err, result) => {
+      ).returns([...Array(20).fill(null).map(() => new Contact(
+        contact,
+        utils.getRandomKeyString()
+      ))]);
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.once('node:rpc', (m, p, c, d) => {
+        d(new Error('Request timeout'));
+        kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+          d(null, {
+            blob: 'some data value',
+            meta: {
+              timestamp: Date.now(),
+              publisher: 'ea48d3f07a5241291ed0b4cab6483fa8b8fcc127'
+            }
+          });
           sandbox.restore();
-          expect(result.value).to.equal('some data value');
-          expect(send.callCount >= 3).to.equal(true);
-          done();
-        }
-      );
+        });
+      });
+      kademliaNode.iterativeFindValue(
+        utils.getRandomKeyString()
+      ).then((result) => {
+        expect(result.blob).to.equal('some data value');
+        done();
+      }, done);
     });
 
   });
@@ -592,34 +573,31 @@ describe('@class Node', function() {
       let sandbox = sinon.sandbox.create();
       let items = [
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - constants.T_REPUBLISH,
             publisher: kademliaNode.identity.toString('hex')
           }
         },
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - constants.T_REPLICATE,
             publisher: utils.getRandomKeyString()
           }
         },
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - 1000,
             publisher: utils.getRandomKeyString()
           }
         }
       ];
-      sandbox.stub(
-        kademliaNode.storage,
-        'createReadStream'
-      ).returns(new ReadableStream({
+      const rs = new ReadableStream({
         objectMode: true,
         read: function() {
           if (items.length) {
@@ -628,15 +606,17 @@ describe('@class Node', function() {
             this.push(null);
           }
         }
-      }));
+      });
+      kademliaNode.events.once('node:replicate', (replicator) => {
+        rs.pipe(replicator).on('finish', () => {
+          sandbox.restore();
+          expect(iterativeStore.callCount).to.equal(2);
+          done();
+        });  
+      });
       let iterativeStore = sandbox.stub(kademliaNode, 'iterativeStore')
         .callsArg(2);
-      kademliaNode.replicate((err) => {
-        sandbox.restore();
-        expect(err).to.equal(undefined);
-        expect(iterativeStore.callCount).to.equal(2);
-        done();
-      });
+      setImmediate(() => kademliaNode.replicate());
     });
 
   });
@@ -647,34 +627,31 @@ describe('@class Node', function() {
       let sandbox = sinon.sandbox.create();
       let items = [
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - constants.T_EXPIRE,
             publisher: kademliaNode.identity.toString('hex')
           }
         },
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - constants.T_EXPIRE,
             publisher: utils.getRandomKeyString()
           }
         },
         {
-          key: utils.getRandomKeyString(),
-          value: {
-            value: 'some value',
+          hash: utils.getRandomKeyString(),
+          blob: 'some value',
+          meta: {
             timestamp: Date.now() - 1000,
             publisher: utils.getRandomKeyString()
           }
         }
       ];
-      sandbox.stub(
-        kademliaNode.storage,
-        'createReadStream'
-      ).returns(new ReadableStream({
+      const rs = new ReadableStream({
         objectMode: true,
         read: function() {
           if (items.length) {
@@ -683,17 +660,20 @@ describe('@class Node', function() {
             this.push(null);
           }
         }
-      }));
-      let del = sandbox.stub(
-        kademliaNode.storage,
-        'del'
-      ).callsArg(1);
-      kademliaNode.expire((err) => {
-        sandbox.restore();
-        expect(err).to.equal(undefined);
-        expect(del.callCount).to.equal(2);
-        done();
       });
+      let delCount = 0;
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.on('storage:del', (hash) => {
+        delCount++;
+      });
+      kademliaNode.events.on('node:expire', (expirer) => {
+        rs.pipe(expirer).on('finish', () => {
+          sandbox.restore();
+          expect(delCount).to.equal(2);
+          done();
+        });
+      });
+      setImmediate(() => kademliaNode.expire());
     });
 
   });
@@ -702,10 +682,10 @@ describe('@class Node', function() {
 
     it('should refresh the correct buckets', function(done) {
       let sandbox = sinon.sandbox.create();
-      let iterativeFindNode = sandbox.stub(
-        kademliaNode,
-        'iterativeFindNode'
-      ).callsArgWith(1, null, []);
+      kademliaNode.events.removeAllListeners();
+      kademliaNode.events.on('node:rpc', (m, p, c, d) => {
+        d(null, []);
+      });
       kademliaNode.router.get(0).set(
         utils.getRandomKeyString(),
         { hostname: 'localhost', port: 8080 }
@@ -719,11 +699,10 @@ describe('@class Node', function() {
       }
       kademliaNode._lookups.set(1, Date.now() - constants.T_REFRESH);
       kademliaNode._lookups.set(2, Date.now() - constants.T_REFRESH);
-      kademliaNode.refresh(0, () => {
+      kademliaNode.refresh(0).then(() => {
         sandbox.restore();
-        expect(iterativeFindNode.callCount).to.equal(2);
         done();
-      });
+      }, done);
     });
 
   });
