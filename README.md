@@ -9,9 +9,24 @@ set of primitives for inventing new protocols on a solid, well-tested base.
 npm install @tacticalchihuahua/kadence
 ```
 
+## project goals
+
+* To have zero production dependencies and run anywhere JS runs
+* To be easily auditable by only implementing primitives
+* To invite experimentation through well documented and expressive code
+
+> **"Where are all of the plugins???"**
+
+When I first started working on this project back in 2016, my goal 
+was to develop a *framework* that could meet a vast number of 
+potential uses. This project now has different goals and a lot has 
+been moved or removed.
+
+The bells and whistles are now downstream in [🝰 dusk](https://rundusk.org/).
+
 ## example: quickstart template
 
-Kadence focuses on just the protocol implementation and primitives. It leaves 
+Kadence focuses on the protocol implementation and primitives. It leaves 
 the transport and storage layers up to you. This is exposed through an 
 event-driven interface. You can have a functional peer-to-peer network 
 by writing just a few basic functions to handle some key events.
@@ -60,7 +75,7 @@ node.on('storage_expire', (expirerStream) => {
 
 ```
 
-## research
+## research using kadence
 
 Kadence has been used in academic research on distributed systems over the years. 
 Some notable papers:
@@ -70,7 +85,7 @@ Some notable papers:
 * [DHT-based collaborative Web Translation](https://etd.ohiolink.edu/!etd.send_file?accession=ucin1479821556144121&disposition=inline)
 * [Kademlia with Consistency Checks as a Foundation of Borderless Collaboration in Open Science Services](https://www.sciencedirect.com/science/article/pii/S1877050916327041)
 
-## license
+## copying
 
 This program is free software: you can redistribute it and/or modify
 it under the terms of the GNU Affero General Public License as published by
