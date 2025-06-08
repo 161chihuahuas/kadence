@@ -24,7 +24,7 @@
       "url": "https://gitlab.com/simonovic86"
     }
   ],
-  "description": "zero-dependency kademlia primitives for p2p networks",
+  "description": "composable p2p networks",
   "devDependencies": {
     "@tacticalchihuahua/mascara": "^1.0.0",
     "chai": "^2.2.0",

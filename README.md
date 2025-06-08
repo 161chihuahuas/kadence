@@ -1,4 +1,4 @@
-# kadence *primitives for building p2p networks*
+# 🎼 kadence ~ *composable p2p networks*
 
 Kadence is a complete implementation of the 
 [Kademlia](http://www.scs.stanford.edu/%7Edm/home/papers/kpos.pdf) distributed 
