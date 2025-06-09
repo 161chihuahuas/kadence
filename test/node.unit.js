@@ -240,7 +240,7 @@ describe('@class Node', function() {
   describe('@method iterativeStore', function() {
 
     it('should send store rpc to found contacts', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = { hostname: 'localhost', port: 8080 };
       sandbox.stub(
         kademliaNode,
@@ -263,7 +263,7 @@ describe('@class Node', function() {
     });
 
     it('should send the store rpc with the existing metadata', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = new Contact({ hostname: 'localhost', port: 8080 });
       sandbox.stub(
         kademliaNode,
@@ -437,7 +437,7 @@ describe('@class Node', function() {
   describe('@method iterativeFindValue', function() {
 
     it('should return a node list if no value is found', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = { hostname: 'localhost', port: 8080 };
       sandbox.stub(
         kademliaNode.router,
@@ -463,7 +463,7 @@ describe('@class Node', function() {
     });
 
     it('should find a value at a currently unknown node', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = { hostname: 'localhost', port: 8080 };
       sandbox.stub(
         kademliaNode.router,
@@ -500,7 +500,7 @@ describe('@class Node', function() {
     });
 
     it('should store the value at the closest missing node', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = { hostname: 'localhost', port: 8080 };
       sandbox.stub(
         kademliaNode.router,
@@ -534,7 +534,7 @@ describe('@class Node', function() {
     });
 
     it('should immediately callback if value found', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let contact = { hostname: 'localhost', port: 8080 };
       sandbox.stub(
         kademliaNode.router,
@@ -570,7 +570,7 @@ describe('@class Node', function() {
   describe('@method replicate', function() {
 
     it('should replicate and republish the correct items', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let items = [
         {
           hash: keys.getRandomKeyString(),
@@ -624,7 +624,7 @@ describe('@class Node', function() {
   describe('@method expire', function() {
 
     it('should expire the correct items', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       let items = [
         {
           hash: keys.getRandomKeyString(),
@@ -681,7 +681,7 @@ describe('@class Node', function() {
   describe('@method refresh', function() {
 
     it('should refresh the correct buckets', function(done) {
-      let sandbox = sinon.sandbox.create();
+      let sandbox = sinon.createSandbox();
       kademliaNode.events.removeAllListeners();
       kademliaNode.events.on('message_queued', (m, p, c, d) => {
         d(null, []);

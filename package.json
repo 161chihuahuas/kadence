@@ -26,14 +26,14 @@
   ],
   "description": "composable p2p networks",
   "devDependencies": {
-    "@tacticalchihuahua/mascara": "^1.0.0",
-    "chai": "^2.2.0",
+    "@tacticalchihuahua/scarf": "^1.0.0",
+    "chai": "^5.2.0",
     "clean-jsdoc-theme": "^4.3.0",
     "eslint": "^9.27.0",
     "jsdoc": "^4.0.4",
     "mocha": "^11.5.0",
     "proxyquire": "^1.8.0",
-    "sinon": "^2.4.1"
+    "sinon": "^20.0.0"
   },
   "directories": {
     "test": "test",
@@ -69,5 +69,5 @@
     "unit-tests": "mocha --exit test/*.unit.js",
     "generate-docs": "mkdir -p ./docs && rm -r ./docs && jsdoc lib -r -R README.md -c .jsdoc.json --verbose -d ./docs"
   },
-  "version": "8.0.0"
+  "version": "8.0.1"
 }
