@@ -1,8 +1,8 @@
 # 🎼 kdns ~ *composable p2p networks*
 
-Kadence is a complete implementation of the 
+kdns is a complete implementation of the 
 [Kademlia](http://www.scs.stanford.edu/%7Edm/home/papers/kpos.pdf) distributed 
-hash table. Kadence provides developers of distributed systems a 
+hash table. kdns provides developers of distributed systems a 
 set of primitives for inventing new protocols on a solid, well-tested base.
 
 ```
@@ -26,7 +26,7 @@ The bells and whistles are now downstream in [🝰 dusk](https://rundusk.org/).
 
 ## example: quickstart template
 
-Kadence focuses on the protocol implementation and primitives. It leaves 
+kdns focuses on the protocol implementation and primitives. It leaves 
 the transport and storage layers up to you. This is exposed through an 
 event-driven interface. You can have a functional peer-to-peer network 
 by writing just a few basic functions to handle some key events.
@@ -77,7 +77,7 @@ node.on('storage_expire', (expirerStream) => {
 
 ## research using kdns
 
-Kadence has been used in academic research on distributed systems over the years. 
+kdns has been used in academic research on distributed systems over the years. 
 Some notable papers:
 
 * [Secure and Trustable Distributed Aggregation based on Kademlia](https://arxiv.org/pdf/1709.03265.pdf)
