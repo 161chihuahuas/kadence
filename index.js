@@ -18,10 +18,10 @@ module.exports.Contact = require('./lib/contact').Contact;
 /** {@link ContactList} */
 module.exports.ContactList = require('./lib/contact').ContactList;
 
-/** {@link module:kadence/constants} */
+/** {@link module:kdns/constants} */
 module.exports.constants = require('./lib/constants');
 
-/** {@link module:kadence/keys} */
+/** {@link module:kdns/keys} */
 module.exports.keys = require('./lib/keys');
 
 

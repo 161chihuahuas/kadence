@@ -4,7 +4,7 @@ const { expect } = require('chai');
 
 const { 
   Client,
-  Server } = require('@tacticalchihuahua/scarf');
+  Server } = require('@yipyap/scarf');
 
 const {
   constants,
@@ -84,7 +84,7 @@ function createKademliaNode(port) {
   });
 }
 
-describe('@module kadence', function() {
+describe('@module kdns', function() {
 
   this.timeout(120000);
 

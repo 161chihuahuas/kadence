@@ -1,4 +1,4 @@
-# 🎼 kadence ~ *composable p2p networks*
+# 🎼 kdns ~ *composable p2p networks*
 
 Kadence is a complete implementation of the 
 [Kademlia](http://www.scs.stanford.edu/%7Edm/home/papers/kpos.pdf) distributed 
@@ -6,7 +6,7 @@ hash table. Kadence provides developers of distributed systems a
 set of primitives for inventing new protocols on a solid, well-tested base.
 
 ```
-npm install @tacticalchihuahua/kadence
+npm install @yipyap/kdns
 ```
 
 ## project goals
@@ -32,12 +32,12 @@ event-driven interface. You can have a functional peer-to-peer network
 by writing just a few basic functions to handle some key events.
 
 ```js
-const kadence = require('@tacticalchihuahua/kadence');
-const node = new kadence.Node();
+const kdns = require('@yipyap/kdns');
+const node = new kdns.Node();
 
 // how do you want to listen for connections and messages?
-// use the kadence.Protocol object on node.protocol handle 
-// messages received. see test/kadence.e2e.js for example 
+// use the kdns.Protocol object on node.protocol handle 
+// messages received. see test/kdns.e2e.js for example 
 // that uses JSON-RPC over TCP sockets
 
 node.on('message_queued', (method, params, target, send) => {
@@ -75,7 +75,7 @@ node.on('storage_expire', (expirerStream) => {
 
 ```
 
-## research using kadence
+## research using kdns
 
 Kadence has been used in academic research on distributed systems over the years. 
 Some notable papers:
