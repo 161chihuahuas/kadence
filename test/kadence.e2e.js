@@ -4,7 +4,7 @@ const { expect } = require('chai');
 
 const { 
   Client,
-  Server } = require('@yipyap/scarf');
+  Server } = require('@yipsec/scarf');
 
 const {
   constants,

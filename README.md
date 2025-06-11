@@ -6,7 +6,7 @@ hash table. kdns provides developers of distributed systems a
 set of primitives for inventing new protocols on a solid, well-tested base.
 
 ```
-npm install @yipyap/kdns
+npm install @yipsec/kdns
 ```
 
 ## project goals
@@ -32,7 +32,7 @@ event-driven interface. You can have a functional peer-to-peer network
 by writing just a few basic functions to handle some key events.
 
 ```js
-const kdns = require('@yipyap/kdns');
+const kdns = require('@yipsec/kdns');
 const node = new kdns.Node();
 
 // how do you want to listen for connections and messages?

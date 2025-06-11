@@ -26,7 +26,7 @@
   ],
   "description": "composable p2p networks",
   "devDependencies": {
-    "@yipyap/scarf": "^1.0.0",
+    "@yipsec/scarf": "^1.0.0",
     "chai": "^5.2.0",
     "clean-jsdoc-theme": "^4.3.0",
     "eslint": "^9.27.0",
@@ -56,7 +56,7 @@
   ],
   "license": "AGPL-3.0",
   "main": "index.js",
-  "name": "@yipyap/kdns",
+  "name": "@yipsec/kdns",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/161chihuahuas/kdns.git"
