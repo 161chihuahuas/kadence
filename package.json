@@ -1,6 +1,6 @@
 {
   "author": {
-    "name": "chihuahua.rodeo",
+    "name": "yipsec",
     "email": "161chihuahuas@disroot.org"
   },
   "bugs": {
@@ -43,7 +43,7 @@
   "engines": {
     "node": ">=22"
   },
-  "homepage": "https://chihuahua.rodeo/kdns",
+  "homepage": "https://yipsec/kdns",
   "keywords": [
     "kademlia",
     "dht",
